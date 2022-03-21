@@ -24,6 +24,9 @@
     
 
     <TabBar>
+        <Tab Title="Auth">
+            <ShellContent Title="View" ContentTemplate="{DataTemplate views:AuthenticationPage}"/>
+        </Tab>
         <Tab Title="View">
             <ShellContent Title="View" ContentTemplate="{DataTemplate views:ViewItems}"/>
         </Tab>
