@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyDigitalWardrobe.Views.AddItem">
+    <ContentPage.Content>
+        <StackLayout Spacing="3" Padding="15" BackgroundColor="Black">
+            
+            <Label Text="Name" FontSize="Medium"/>
+            <Entry x:Name="name" 
+                   Text="{Binding UpdateSourceEventName, Mode=TwoWay}" 
+                   FontSize="Medium"/>
+
+            <Label Text="Price" FontSize="Medium"/>
+            <Entry x:Name="price"
+                   Text="{Binding Price, Mode=TwoWay}" 
+                   Keyboard="Numeric" 
+                   FontSize="Medium"/>
+
+            <Label Text="Location Purcahsed" FontSize="Medium"/>
+            <Entry x:Name="locationPurchased" 
+                   Text="{Binding Location.Name, Mode=TwoWay}" 
+                   FontSize="Medium"/>
+
+            <Label Text="Date Purchased" FontSize="Medium"/>
+            <DatePicker x:Name="datePurchased" 
+                        Date="{Binding DatePurchased, Mode=TwoWay}" 
+                        FontSize="Medium"/>
+
+            <Label Text="Warranty End Date" FontSize="Medium"/>
+            <DatePicker x:Name="warrantyEnd" 
+                        Date="{Binding WarrantyEnd, Mode=TwoWay}" 
+                        FontSize="Medium"/>
+
+            <Button Text="Add" Clicked="Btn_addItem"/>
+           
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
