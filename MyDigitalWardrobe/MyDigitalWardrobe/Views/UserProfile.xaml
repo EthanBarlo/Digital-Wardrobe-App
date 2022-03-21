@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MyDigitalWardrobe.Views.UserProfile">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout BackgroundColor="Black">
             <Label Text="Welcome to Your Dital Wardrobe" FontSize="Medium"/>
             <Label x:Name="username" />
             <Button Text="Logout" Clicked="logout_Clicked"/>

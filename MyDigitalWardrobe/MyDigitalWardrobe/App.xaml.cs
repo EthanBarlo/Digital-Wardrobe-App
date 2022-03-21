@@ -2,6 +2,8 @@
 using System.IO;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using MyDigitalWardrobe.Views;
+using Xamarin.Essentials;
 
 namespace MyDigitalWardrobe
 {
@@ -22,9 +24,19 @@ namespace MyDigitalWardrobe
         public App()
         {
             InitializeComponent();
-            database = new Database(Path.Combine(Environment.GetFolderPath(
+
+            if(string.IsNullOrEmpty(Preferences.Get("MyFirebaseRefreshToken", "")))
+            {
+                MainPage = new AuthenticationPage();
+            }
+            else
+            {
+                database = new Database(Path.Combine(Environment.GetFolderPath(
                             Environment.SpecialFolder.LocalApplicationData), "wardrobe.db3"));
-            MainPage = new AppShell();
+                MainPage = new AppShell();
+            }
+
+            
         }
 
         protected override void OnStart()

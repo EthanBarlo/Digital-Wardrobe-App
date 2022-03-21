@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Firebase.Auth;
 using Newtonsoft.Json;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -42,6 +43,13 @@ namespace MyDigitalWardrobe.Views
             catch (FirebaseAuthException ex)
             {
                 registerResponse.Text = ex.Reason.ToString();
+
+                string reason = string.Empty;
+
+                foreach (char letter in ex.Reason.ToString())
+                {
+                    reason += char.IsUpper(letter) ? " " + letter : letter.ToString();
+                }
             }
             
             
@@ -63,15 +71,12 @@ namespace MyDigitalWardrobe.Views
             try
             {
                 var authProvider = new FirebaseAuthProvider(new FirebaseConfig(authKey));
-                var auth = await authProvider.SignInWithEmailAndPasswordAsync(registerEmail.Text.Trim(), registerPassword.Text);
+                var auth = await authProvider.SignInWithEmailAndPasswordAsync(loginEmail.Text.Trim(), loginPassword.Text);
                 var content = await auth.GetFreshAuthAsync();
                 var serialContent = JsonConvert.SerializeObject(content);
                 Preferences.Set("MyFirebaseRefreshToken", serialContent);
-
-                // TODO - Move user into the applicaion page
-                //Shell.Current.CurrentItem = 
-
-                await Navigation.PushAsync(new UserProfile());
+                loginResponse.Text = "Wow it work?";
+                App.Current.MainPage = new AppShell();
             }
             catch (FirebaseAuthException ex)
             {
