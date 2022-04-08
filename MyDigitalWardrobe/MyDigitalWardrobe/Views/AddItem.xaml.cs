@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MyDigitalWardrobe.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using MyDigitalWardrobe.Services;
 
 namespace MyDigitalWardrobe.Views
 {
@@ -32,7 +33,7 @@ namespace MyDigitalWardrobe.Views
                 WarrantyEnd = warrantyEnd.Date,
             };
 
-            await App.Database.SaveItemAsync(item);
+            await ItemService.SaveItemAsync(item);
 
             name.Text = "";
             price.Text = "";

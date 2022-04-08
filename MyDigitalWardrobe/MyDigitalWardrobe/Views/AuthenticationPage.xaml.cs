@@ -8,16 +8,24 @@ using Newtonsoft.Json;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using MyDigitalWardrobe.Services;
 
 namespace MyDigitalWardrobe.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AuthenticationPage : ContentPage
     {
-        private readonly string authKey = "AIzaSyB7wv7xyG148I_XUDv8OvNn-iQE1fjpbp4";
         public AuthenticationPage()
         {
             InitializeComponent();
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            if (string.IsNullOrEmpty(Preferences.Get("MyFirebaseRefreshToken", "")))
+                return;
+            await Shell.Current.GoToAsync($"//{nameof(ViewItems)}");
         }
 
         /// <summary>
@@ -33,26 +41,18 @@ namespace MyDigitalWardrobe.Views
                 return;
             }
 
-            try
-            {
-                var authProvider = new FirebaseAuthProvider(new FirebaseConfig(authKey));
-                var auth = await authProvider.CreateUserWithEmailAndPasswordAsync(registerEmail.Text.Trim(), registerPassword.Text);
-                string myToken = auth.FirebaseToken;
-                await App.Current.MainPage.DisplayAlert("Alert", myToken, "Ok");
-            }
-            catch (FirebaseAuthException ex)
-            {
-                registerResponse.Text = ex.Reason.ToString();
+            var result = await FireBaseService.RegisterNewUserAsync(registerEmail.Text.Trim(), registerPassword.Text);
 
-                string reason = string.Empty;
-
-                foreach (char letter in ex.Reason.ToString())
-                {
-                    reason += char.IsUpper(letter) ? " " + letter : letter.ToString();
-                }
+            if (result.Status == FireBaseService.Status.Success)
+            {
+                registerResponse.Text = "Registration Successful";
+                Preferences.Set("MyFirebaseRefreshToken", result.AuthToken);
+                await Shell.Current.GoToAsync($"//{nameof(ViewItems)}");
             }
-            
-            
+            else
+            {
+                await App.Current.MainPage.DisplayAlert("Error", result.ErrorMessage, "Ok");
+            }
         }
 
         /// <summary>
@@ -68,19 +68,17 @@ namespace MyDigitalWardrobe.Views
                 return;
             }
 
-            try
+            var result = await FireBaseService.LoginWithCredentialsAsync(loginEmail.Text.Trim(), loginPassword.Text);
+
+            if (result.Status == FireBaseService.Status.Success)
             {
-                var authProvider = new FirebaseAuthProvider(new FirebaseConfig(authKey));
-                var auth = await authProvider.SignInWithEmailAndPasswordAsync(loginEmail.Text.Trim(), loginPassword.Text);
-                var content = await auth.GetFreshAuthAsync();
-                var serialContent = JsonConvert.SerializeObject(content);
-                Preferences.Set("MyFirebaseRefreshToken", serialContent);
-                loginResponse.Text = "Wow it work?";
-                App.Current.MainPage = new AppShell();
+                loginResponse.Text = "Login Successful";
+                Preferences.Set("MyFirebaseRefreshToken", result.AuthToken);
+                await Shell.Current.GoToAsync($"//{nameof(ViewItems)}");
             }
-            catch (FirebaseAuthException ex)
+            else
             {
-                loginResponse.Text = ex.Reason.ToString();
+                await App.Current.MainPage.DisplayAlert("Error", result.ErrorMessage, "Ok");
             }
         }
     }

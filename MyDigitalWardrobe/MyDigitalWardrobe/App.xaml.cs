@@ -2,6 +2,7 @@
 using System.IO;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using SQLite;
 using MyDigitalWardrobe.Views;
 using Xamarin.Essentials;
 
@@ -9,34 +10,23 @@ namespace MyDigitalWardrobe
 {
     public partial class App : Application
     {
-        private static Database database;
-        public static Database Database
+        private static SQLiteAsyncConnection databaseConnection;
+        public static SQLiteAsyncConnection Database
         {
             get
             {
-                if (database == null) 
-                    database = new Database(Path.Combine(Environment.GetFolderPath(
-                            Environment.SpecialFolder.LocalApplicationData), "wardrobe.db3"));
-                return database;
+                if (databaseConnection == null)
+                {
+                    databaseConnection = new SQLiteAsyncConnection(Path.Combine(FileSystem.AppDataDirectory, "database.db"));
+                }
+                return databaseConnection;
             }
         }
 
         public App()
         {
             InitializeComponent();
-
-            if(string.IsNullOrEmpty(Preferences.Get("MyFirebaseRefreshToken", "")))
-            {
-                MainPage = new AuthenticationPage();
-            }
-            else
-            {
-                database = new Database(Path.Combine(Environment.GetFolderPath(
-                            Environment.SpecialFolder.LocalApplicationData), "wardrobe.db3"));
-                MainPage = new AppShell();
-            }
-
-            
+            MainPage = new AppShell();
         }
 
         protected override void OnStart()

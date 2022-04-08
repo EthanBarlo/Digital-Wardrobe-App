@@ -21,17 +21,21 @@
             <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
         </ResourceDictionary>
     </Shell.Resources>
-    
+
+
+    <ShellItem>
+        <ShellContent ContentTemplate="{DataTemplate views:AuthenticationPage}" Route="Login"/>
+    </ShellItem>
 
     <TabBar>
         <Tab Title="Profile">
-            <ShellContent Title="View" ContentTemplate="{DataTemplate views:UserProfile}"/>
+            <ShellContent Title="View" ContentTemplate="{DataTemplate views:UserProfile}" Route="UserProfile"/>
         </Tab>
         <Tab Title="View">
-            <ShellContent Title="View" ContentTemplate="{DataTemplate views:ViewItems}"/>
+            <ShellContent Title="View" ContentTemplate="{DataTemplate views:ViewItems}" Route="ViewItems"/>
         </Tab>
         <Tab Title="Add">
-            <ShellContent Title="Add" ContentTemplate="{DataTemplate views:AddItem}"/>
+            <ShellContent Title="Add" ContentTemplate="{DataTemplate views:AddItem}" Route="AddItem"/>
         </Tab>
     </TabBar>
 

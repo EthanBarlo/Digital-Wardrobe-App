@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using MyDigitalWardrobe.Services;
 
 namespace MyDigitalWardrobe.Views
 {
@@ -20,7 +21,7 @@ namespace MyDigitalWardrobe.Views
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            itemsList.ItemsSource = await App.Database.GetItemsAsync();
+            itemsList.ItemsSource = await ItemService.GetItemsAsync();
         }
     }
 }

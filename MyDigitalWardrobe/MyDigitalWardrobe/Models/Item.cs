@@ -9,6 +9,7 @@ namespace MyDigitalWardrobe.Models
         public int ID { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
+        public string Image { get; set; }
         public int TimesWorn { get; set; }
         public string LocationName { get; set; }
         public decimal LocationLongitude { get; set; }
