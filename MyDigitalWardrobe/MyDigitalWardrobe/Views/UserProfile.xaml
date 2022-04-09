@@ -1,12 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MyDigitalWardrobe.ViewModels"
+             x:DataType="viewmodels:UserProfileViewModel"
              x:Class="MyDigitalWardrobe.Views.UserProfile">
+    <ContentPage.BindingContext>
+        <viewmodels:UserProfileViewModel/>
+    </ContentPage.BindingContext>
     <ContentPage.Content>
         <StackLayout BackgroundColor="Black">
-            <Label Text="Welcome to Your Dital Wardrobe" FontSize="Medium"/>
-            <Label x:Name="username" />
-            <Button Text="Logout" Clicked="logout_Clicked"/>
+            <Label Text="{Binding Title}" FontSize="Medium"/>
+            <Label Text="{Binding UserName}" />
+            <Button Text="Logout" Command="{Binding LogoutAction}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

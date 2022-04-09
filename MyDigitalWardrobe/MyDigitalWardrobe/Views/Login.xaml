@@ -10,20 +10,19 @@
         <viewmodels:LoginViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout BackgroundColor="Black">
             
             <Frame BackgroundColor="Blue" Padding="24" CornerRadius="0">
                 <Label Text="Login" HorizontalTextAlignment="Center" TextColor="White"/>
             </Frame>
             
-            <Button Text="Go To Register" Command="{Binding GoToRegister}"/>
-
             <StackLayout>
                 <Entry Placeholder="Enter Email Address" Text="{Binding Email, Mode=TwoWay}"/>
                 <Entry Placeholder="Enter Password" IsPassword="True" Text="{Binding Password, Mode=TwoWay}"/>
-                <Button Text="Login" Command="{Binding AttemptLogin}"/>
                 <Label FontSize="Small" TextColor="Red" Text="{Binding ErrorMessage}"/>
+                <Button Text="Login" Command="{Binding AttemptLogin}"/>
             </StackLayout>
+            <Button Text="Go To Register" Command="{Binding GoToRegister}"/>
 
         </StackLayout>
     </ContentPage.Content>

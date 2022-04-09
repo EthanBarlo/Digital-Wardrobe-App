@@ -14,8 +14,13 @@ namespace MyDigitalWardrobe.ViewModels
 
         public string Email { get; set; }
         public string Password { get; set; }
-        public string ErrorMessage { get; set; }
-        
+        private string errorMessage = "";
+        public string ErrorMessage 
+        { 
+            get => errorMessage; 
+            set => SetProperty(ref errorMessage, value);
+        }
+
         public LoginViewModel()
         {
             AttemptLogin = new Command(AttemptLoginCommand);
@@ -24,7 +29,6 @@ namespace MyDigitalWardrobe.ViewModels
         
         private async Task GoToRegisterCommand()
         {
-            //await Xamarin.Forms.Shell.Current.GoToAsync("///Register");
             await Xamarin.Forms.Shell.Current.Navigation.PushModalAsync(new Register());
         }
 
@@ -39,15 +43,9 @@ namespace MyDigitalWardrobe.ViewModels
             var result = await FireBaseService.LoginWithCredentialsAsync(Email.Trim(), Password);
 
             if (result.Status == FireBaseService.Status.Success)
-            {
-                ErrorMessage = "Login Successful";
                 await Xamarin.Forms.Shell.Current.GoToAsync($"//{nameof(ViewItems)}");
-            }
             else
-            {
                 ErrorMessage = result.ErrorMessage;
-                //await App.Current.MainPage.DisplayAlert("Error", result.ErrorMessage, "Ok");
-            }
         }
     }
 }

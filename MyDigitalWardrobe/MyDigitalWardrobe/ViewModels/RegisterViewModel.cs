@@ -1,18 +1,22 @@
 ﻿using System.Windows.Input;
-using Xamarin.Forms;
+using MvvmHelpers.Commands;
 using MyDigitalWardrobe.Services;
-using Xamarin.Essentials;
 using MyDigitalWardrobe.Views;
 
 namespace MyDigitalWardrobe.ViewModels
 {
-    public class RegisterViewModel
+    public class RegisterViewModel : ViewModelBase
     {
         public ICommand AttemptRegister { get; private set; }
         public string Email { get; set; }
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
-        public string ErrorMessage { get; set; }
+        private string errorMessage = "";
+        public string ErrorMessage 
+        {
+            get => errorMessage;
+            set => SetProperty(ref errorMessage, value);
+        }
 
         public RegisterViewModel()
         {
@@ -38,7 +42,7 @@ namespace MyDigitalWardrobe.ViewModels
             if (result.Status == FireBaseService.Status.Success)
             {
                 ErrorMessage = "Registration Successful";
-                await Shell.Current.GoToAsync($"//{nameof(ViewItems)}");
+                await Xamarin.Forms.Shell.Current.GoToAsync($"//{nameof(ViewItems)}");
             }
             else
             {

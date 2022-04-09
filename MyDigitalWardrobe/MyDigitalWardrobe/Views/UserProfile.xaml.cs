@@ -1,7 +1,5 @@
-﻿using System;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using MyDigitalWardrobe.Services;
 
 namespace MyDigitalWardrobe.Views
 {
@@ -11,13 +9,6 @@ namespace MyDigitalWardrobe.Views
         public UserProfile()
         {
             InitializeComponent();
-            username.Text = FireBaseService.CurrentUserInformation.User.Email;
-        }
-        
-        private async void logout_Clicked(object sender, EventArgs e)
-        {
-            FireBaseService.ClearAuth();
-            await Shell.Current.GoToAsync("//Login");
         }
     }
 }
