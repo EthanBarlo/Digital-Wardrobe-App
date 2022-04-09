@@ -35,10 +35,10 @@ namespace MyDigitalWardrobe.Services
             {
                 var authProvider = new FirebaseAuthProvider(new FirebaseConfig(authKey));
                 var auth = await authProvider.CreateUserWithEmailAndPasswordAsync(email, password);
+                await LoginWithCredentialsAsync(email, password);
                 return new Result
                 {
                     Status = Status.Success,
-                    AuthToken = auth.FirebaseToken
                 };
             }
             catch (FirebaseAuthException ex)
@@ -64,11 +64,12 @@ namespace MyDigitalWardrobe.Services
                 var authProvider = new FirebaseAuthProvider(new FirebaseConfig(authKey));
                 var auth = await authProvider.SignInWithEmailAndPasswordAsync(email, password);
                 var content = await auth.GetFreshAuthAsync();
-                var serialContent = JsonConvert.SerializeObject(content);
+                _currentAuthInformation = content;
+                var serialToken = JsonConvert.SerializeObject(content);
+                Preferences.Set("MyFirebaseRefreshToken", serialToken);
                 return new Result
                 {
                     Status = Status.Success,
-                    AuthToken = serialContent
                 };
             }
             catch (FirebaseAuthException ex)
@@ -80,19 +81,31 @@ namespace MyDigitalWardrobe.Services
                 };
             }
         }
-        
+
+        /// <summary>
+        /// Attempts to Refresh the current users auth token.
+        /// </summary>
+        /// <returns>Result Object containing { Status, AuthToken, ErrorMessage}</returns>
         public static async Task<Result> RefreshAuthTokenAsync()
         {
+            if (Preferences.Get("MyFirebaseRefreshToken", "") == "")
+            {
+                return new Result
+                {
+                    Status = Status.Error,
+                    ErrorMessage = "No Refresh Token Found"
+                };
+            }
             try
             {
                 var authProvider = new FirebaseAuthProvider(new FirebaseConfig(authKey));
                 var oldAuthToken = JsonConvert.DeserializeObject<FirebaseAuth>(Preferences.Get("MyFirebaseRefreshToken", ""));
                 var refreshedContent = await authProvider.RefreshAuthAsync(oldAuthToken);
-                var newAuthToken = JsonConvert.SerializeObject(refreshedContent);
+                var serialToken = JsonConvert.SerializeObject(refreshedContent);
+                Preferences.Set("MyFirebaseRefreshToken", serialToken);
                 return new Result
                 {
                     Status = Status.Success,
-                    AuthToken = newAuthToken
                 };
             }
             catch (FirebaseAuthException ex)
@@ -110,7 +123,7 @@ namespace MyDigitalWardrobe.Services
         /// And also removes the current user's information from the app.
         /// </summary>
         /// <returns></returns>
-        public static async Task ClearAuth()
+        public static void ClearAuth()
         {
             _currentAuthInformation = null;
             Preferences.Remove("MyFirebaseRefreshToken");
@@ -142,7 +155,6 @@ namespace MyDigitalWardrobe.Services
         public struct Result
         {
             public Status Status { get; set; }
-            public string AuthToken { get; set; }
             public string ErrorMessage { get; set; }
         }
     }

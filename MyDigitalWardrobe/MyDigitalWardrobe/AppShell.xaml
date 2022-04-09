@@ -24,7 +24,11 @@
 
 
     <ShellItem>
-        <ShellContent ContentTemplate="{DataTemplate views:AuthenticationPage}" Route="Login"/>
+        <ShellContent ContentTemplate="{DataTemplate views:Login}" Route="Login"/>
+    </ShellItem>
+
+    <ShellItem>
+        <ShellContent ContentTemplate="{DataTemplate views:Register}" Route="Register"/>
     </ShellItem>
 
     <TabBar>

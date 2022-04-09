@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MyDigitalWardrobe.ViewModels"
+             x:DataType="viewmodels:RegisterViewModel"
+             x:Class="MyDigitalWardrobe.Views.Register"
+             Shell.TabBarIsVisible="False"
+             Shell.NavBarIsVisible="False">
+    <ContentPage.BindingContext>
+        <viewmodels:RegisterViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame BackgroundColor="Blue" Padding="24" CornerRadius="0">
+                <Label Text="Register" HorizontalTextAlignment="Center" TextColor="White"/>
+            </Frame>
+
+            <StackLayout>
+                <Entry Placeholder="Enter Email Address" Text="{Binding Email, Mode=TwoWay}"/>
+                <Entry Placeholder="Enter Password" IsPassword="True" Text="{Binding Password, Mode=TwoWay}"/>
+                <Entry Placeholder="Confirm Password" IsPassword="True" Text="{Binding ConfirmPassword, Mode=TwoWay}"/>
+                <Button Text="Register" Command="{Binding AttemptRegister}"/>
+                <Label FontSize="Small" TextColor="Red" Text="{Binding ErrorMessage}"/>
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -5,6 +5,7 @@ using Xamarin.Forms.Xaml;
 using SQLite;
 using MyDigitalWardrobe.Views;
 using Xamarin.Essentials;
+using MyDigitalWardrobe.Services;
 
 namespace MyDigitalWardrobe
 {
@@ -28,9 +29,15 @@ namespace MyDigitalWardrobe
             InitializeComponent();
             MainPage = new AppShell();
         }
-
-        protected override void OnStart()
+        
+        protected override async void OnStart()
         {
+            var result = await FireBaseService.RefreshAuthTokenAsync();
+            if (result.Status == FireBaseService.Status.Success)
+            {
+                await Shell.Current.GoToAsync($"//{nameof(ViewItems)}");
+                return;
+            }
         }
 
         protected override void OnSleep()
