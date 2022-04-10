@@ -23,8 +23,6 @@ namespace MyDigitalWardrobe.Services
             await _connection.CreateTableAsync<Item>();
         }
 
-
-        #region Items
         /// <summary>
         /// Retrives all items from the database.
         /// </summary>
@@ -64,6 +62,17 @@ namespace MyDigitalWardrobe.Services
             await Init();
             return await _connection.DeleteAsync(id);
         }
-        #endregion
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>The next ID to be used for a new item.</returns>
+        public static async Task<int> GetNextItemID()
+        {
+            var item = await _connection.QueryAsync<Item>("SELECT * FROM Item ORDER BY ID DESC LIMIT 1");
+            if (item.Count == 0)
+                return 1;
+            return item[0].ID + 1;
+        }
     }
 }

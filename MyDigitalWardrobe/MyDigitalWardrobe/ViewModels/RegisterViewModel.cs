@@ -47,7 +47,6 @@ namespace MyDigitalWardrobe.ViewModels
             else
             {
                 ErrorMessage = result.ErrorMessage;
-                //await App.Current.MainPage.DisplayAlert("Error", result.ErrorMessage, "Ok");
             }
         }
     }

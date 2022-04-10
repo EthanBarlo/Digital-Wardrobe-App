@@ -16,9 +16,10 @@ namespace MyDigitalWardrobe
         {
             get
             {
-                if (databaseConnection == null)
+                if (databaseConnection == null && !string.IsNullOrEmpty(Preferences.Get("MyFirebaseRefreshToken", "")))
                 {
-                    databaseConnection = new SQLiteAsyncConnection(Path.Combine(FileSystem.AppDataDirectory, "database.db"));
+                    
+                    databaseConnection = new SQLiteAsyncConnection(Path.Combine(FileSystem.AppDataDirectory, $"{FireBaseService.CurrentUserInformation.User.Email}.db3"));
                 }
                 return databaseConnection;
             }
@@ -27,6 +28,7 @@ namespace MyDigitalWardrobe
         public App()
         {
             InitializeComponent();
+            Plugin.Media.CrossMedia.Current.Initialize();
             MainPage = new AppShell();
         }
         
