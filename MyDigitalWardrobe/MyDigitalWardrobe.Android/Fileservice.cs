@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Android.Graphics;
 using MyDigitalWardrobe.Droid;
 using MyDigitalWardrobe.Interfaces;
 using MyDigitalWardrobe.Services;
@@ -17,10 +18,10 @@ namespace MyDigitalWardrobe.Droid
             // Creates the directorys for the image to be stored in
             // We are using the Current Users Email to create a unique folder, this way if someone were to switch users the images will still exist but they cant see them.
             var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            documentsPath = Path.Combine(documentsPath, FireBaseService.CurrentUserInformation.User.Email, location);
+            documentsPath = System.IO.Path.Combine(documentsPath, FireBaseService.CurrentUserInformation.User.Email, location);
             Directory.CreateDirectory(documentsPath);
 
-            string filePath = Path.Combine(documentsPath, name);
+            string filePath = System.IO.Path.Combine(documentsPath, name);
 
             byte[] bArray = new byte[data.Length];
             using (FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate))
@@ -35,26 +36,31 @@ namespace MyDigitalWardrobe.Droid
         }
         public string GetImagePath(string location = "temp", int? itemIdent = null, string name = null)
         {
-            // /data/user/0/com.companyname.mydigitalwardrobe/files/ethanbarlow2@hotmail.com/Items/3.jpg/item.jpg
-            // /data/user/0/com.companyname.mydigitalwardrobe/files/ethanbarlow2@hotmail.com/{location}/{itemIdent}/{name}.jpg
             var path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            path = Path.Combine(path, FireBaseService.CurrentUserInformation.User.Email, location);
+            path = System.IO.Path.Combine(path, FireBaseService.CurrentUserInformation.User.Email, location);
             if (itemIdent != null)
-                path = Path.Combine(path, itemIdent.ToString());
+                path = System.IO.Path.Combine(path, itemIdent.ToString());
             if (name != null)
-                path = Path.Combine(path, $"{name}.jpg");
+                path = System.IO.Path.Combine(path, $"{name}.jpg");
             return path;
         }
-
-        public bool MoveImageToStore(string source, string destination)
+        public bool MoveImageToStore(string source, string destination, string imageName)
         {
             try
             {
                 Directory.CreateDirectory(destination);
-                File.Copy(source, destination, true);
+                destination = System.IO.Path.Combine(destination, imageName);
+                // Image Compression using Android.Graphics
+                using (var bitmap = BitmapFactory.DecodeStream(File.OpenRead(source)))
+                {
+                    using (FileStream fs = new FileStream(destination, FileMode.OpenOrCreate))
+                    {
+                        bitmap.Compress(Bitmap.CompressFormat.Jpeg, 30, fs);
+                    }
+                }
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }

@@ -11,10 +11,5 @@ namespace MyDigitalWardrobe.Views
         {
             InitializeComponent();
         }
-        protected override async void OnAppearing()
-        {
-            base.OnAppearing();
-            itemsList.ItemsSource = await ItemService.GetItemsAsync();
-        }
     }
 }

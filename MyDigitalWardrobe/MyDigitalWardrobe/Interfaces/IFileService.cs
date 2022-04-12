@@ -6,6 +6,6 @@ namespace MyDigitalWardrobe.Interfaces
     {
         void SavePicture(string name, Stream data, string location = "temp");
         string GetImagePath(string location = "temp", int? itemIdent = null, string name = null);
-        bool MoveImageToStore(string source, string destination);
+        bool MoveImageToStore(string source, string destination, string imageName);
     }
 }

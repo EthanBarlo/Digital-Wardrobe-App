@@ -5,6 +5,8 @@ using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
 using Plugin.CurrentActivity;
+using Plugin.LocalNotification;
+using Plugin.LocalNotification.Platform.Droid;
 
 namespace MyDigitalWardrobe.Droid
 {
@@ -14,6 +16,8 @@ namespace MyDigitalWardrobe.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
+            NotificationCenter.CreateNotificationChannel();
 
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
 

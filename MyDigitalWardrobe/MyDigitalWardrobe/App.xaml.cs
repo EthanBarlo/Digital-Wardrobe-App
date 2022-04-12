@@ -18,7 +18,6 @@ namespace MyDigitalWardrobe
             {
                 if (databaseConnection == null && !string.IsNullOrEmpty(Preferences.Get("MyFirebaseRefreshToken", "")))
                 {
-                    
                     databaseConnection = new SQLiteAsyncConnection(Path.Combine(FileSystem.AppDataDirectory, $"{FireBaseService.CurrentUserInformation.User.Email}.db3"));
                 }
                 return databaseConnection;
@@ -37,7 +36,7 @@ namespace MyDigitalWardrobe
             var result = await FireBaseService.RefreshAuthTokenAsync();
             if (result.Status == FireBaseService.Status.Success)
             {
-                await Shell.Current.GoToAsync($"//{nameof(ViewItems)}");
+                await Shell.Current.GoToAsync($"//{nameof(AddItem)}");
                 return;
             }
         }

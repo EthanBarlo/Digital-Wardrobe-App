@@ -20,9 +20,9 @@
                 <Entry Placeholder="Enter Email Address" Text="{Binding Email, Mode=TwoWay}"/>
                 <Entry Placeholder="Enter Password" IsPassword="True" Text="{Binding Password, Mode=TwoWay}"/>
                 <Label FontSize="Small" TextColor="Red" Text="{Binding ErrorMessage}"/>
-                <Button Text="Login" Command="{Binding AttemptLogin}"/>
+                <Button Text="Login" Command="{Binding AttemptLoginCommand}"/>
             </StackLayout>
-            <Button Text="Go To Register" Command="{Binding GoToRegister}"/>
+            <Button Text="Go To Register" Command="{Binding GoToRegisterCommand}"/>
 
         </StackLayout>
     </ContentPage.Content>

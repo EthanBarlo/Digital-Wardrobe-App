@@ -1,7 +1,5 @@
-﻿using Plugin.Media;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
@@ -10,6 +8,8 @@ using MyDigitalWardrobe.Models;
 using MyDigitalWardrobe.Interfaces;
 using MyDigitalWardrobe.Services;
 using System.IO;
+using MyDigitalWardrobe.Views;
+using Plugin.Media;
 
 namespace MyDigitalWardrobe.ViewModels
 {
@@ -20,9 +20,11 @@ namespace MyDigitalWardrobe.ViewModels
         public ICommand SelectRecieptImage { get; set; }
         public ICommand TakeRecieptImage { get; set; }
         public ICommand AddItem { get; set; }
-        
+        public ICommand CreateCollectionCommand { get; set; }
+
         public string Name { get; set; }
         public decimal Price { get; set; }
+        public Collection Collection { get; set; }
         public string PurchasedName { get; set; }
         public DateTime DatePurchased { get; set; }
         public DateTime WarrantyEnd { get; set; }
@@ -33,7 +35,7 @@ namespace MyDigitalWardrobe.ViewModels
         public string ItemImage {
             get => itemImage;
             set{
-                SetProperty(ref itemImage, value);
+                itemImage = value;
                 OnPropertyChanged();
             }
         }
@@ -42,13 +44,19 @@ namespace MyDigitalWardrobe.ViewModels
             get => recieptImage;
             set
             {
-                SetProperty(ref recieptImage, value);
+                recieptImage = value;
                 OnPropertyChanged();
-            } 
+            }
         }
         private Stream itemImageStream { get; set; }
         private Stream recieptImageStream { get; set; }
 
+        private List<Collection> collectionItems;
+        public List<Collection> CollectionItems
+        {
+            get => collectionItems;
+            set => SetProperty(ref collectionItems, value);
+        }
 
         public AddItemViewModel()
         {
@@ -69,11 +77,44 @@ namespace MyDigitalWardrobe.ViewModels
                 RecieptImage = SavePhoto("temp", "reciept", recieptImageStream);
             });
             AddItem = new Command(AddItemCommand);
+            CreateCollectionCommand = new Command(CreateCollection);
+            Init();
         }
 
-        
+        private async void CreateCollection()
+        {
+            await Xamarin.Forms.Shell.Current.Navigation.PushModalAsync(new AddCollection());
+            CollectionItems = await CollectionService.GetCollectionsAsync();
+        }
+
+        private async void Init()
+        {
+            CollectionItems = await CollectionService.GetCollectionsAsync();
+        }
+
         private async Task<Stream> SelectPhoto()
         {
+            //await CrossMedia.Current.Initialize();
+            
+            //if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
+            //{
+            //    //DisplayAlert("No Camera", ":( No camera available.", "OK");
+            //    return null;
+            //}
+
+            //var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
+            //{
+            //    AllowCropping = true,
+            //    DefaultCamera = Plugin.Media.Abstractions.CameraDevice.Rear,
+            //    PhotoSize = Plugin.Media.Abstractions.PhotoSize.Small
+            //});
+            
+            //if (file == null)
+            //    return null;
+
+
+            //return file.GetStream();
+
             var selectedImage = await MediaPicker.PickPhotoAsync(new MediaPickerOptions
             {
                 Title = "Select a Photo"
@@ -94,7 +135,6 @@ namespace MyDigitalWardrobe.ViewModels
             return DependencyService.Get<IFileService>().GetImagePath(location:folder, name:name);
         }
 
-        
         private async void AddItemCommand()
         {
             int NewIdent = await ItemService.GetNextItemID();
@@ -103,6 +143,7 @@ namespace MyDigitalWardrobe.ViewModels
             {
                 Name = this.Name,
                 Price = this.Price,
+                Collection = this.Collection.ID,
                 PurchasedName = this.PurchasedName,
                 DatePurchased = this.DatePurchased,
                 WarrantyEnd = this.WarrantyEnd,
@@ -111,7 +152,6 @@ namespace MyDigitalWardrobe.ViewModels
                 ItemImage = HandleImage(ItemImage, "item"),
                 RecieptImage = HandleImage(RecieptImage, "reciept"),
             };
-
             
             var rowsChanged = await ItemService.SaveItemAsync(item);
             if(rowsChanged == 0)
@@ -122,8 +162,10 @@ namespace MyDigitalWardrobe.ViewModels
 
             string HandleImage(string imagePath, string type)
             {
+                if (imagePath == null)
+                    return null;
                 var newImagePath = DependencyService.Get<IFileService>().GetImagePath(itemIdent:NewIdent, location:"Items");
-                bool result = DependencyService.Get<IFileService>().MoveImageToStore(imagePath, newImagePath);
+                bool result = DependencyService.Get<IFileService>().MoveImageToStore(imagePath, newImagePath, $"{type}.jpg");
                 newImagePath = Path.Combine(newImagePath, $"{type}.jpg");
                 return newImagePath;
             }

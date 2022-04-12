@@ -4,6 +4,8 @@ using SQLite;
 using Xamarin.Essentials;
 using MyDigitalWardrobe.Models;
 using System.IO;
+using System;
+using System.Linq;
 
 namespace MyDigitalWardrobe.Services
 {
@@ -32,6 +34,16 @@ namespace MyDigitalWardrobe.Services
             await Init();
             return await _connection.Table<Item>().ToListAsync();
         }
+
+        public static async Task<List<Item>> GetItemsFromCollection(int collectionId)
+        {
+            await Init();
+            //return await _connection.Table<Item>().Where(i => i.Collection == collectionId).ToListAsync();
+            var items = await _connection.QueryAsync<Item>($"SELECT * FROM Item WHERE ID = {collectionId}");
+            return items.ToList();
+            //return (await _connection.Table<Item>().ToListAsync()).Where(i => i.Collection == collectionId).ToList();
+        }
+        
         /// <summary>
         /// Creates a new entry in the database.
         /// </summary>
@@ -60,7 +72,7 @@ namespace MyDigitalWardrobe.Services
         public static async Task<int> DeleteItemAsync(int id)
         {
             await Init();
-            return await _connection.DeleteAsync(id);
+            return await _connection.DeleteAsync<Item>(id);
         }
 
         /// <summary>
@@ -69,6 +81,7 @@ namespace MyDigitalWardrobe.Services
         /// <returns>The next ID to be used for a new item.</returns>
         public static async Task<int> GetNextItemID()
         {
+            await Init();
             var item = await _connection.QueryAsync<Item>("SELECT * FROM Item ORDER BY ID DESC LIMIT 1");
             if (item.Count == 0)
                 return 1;

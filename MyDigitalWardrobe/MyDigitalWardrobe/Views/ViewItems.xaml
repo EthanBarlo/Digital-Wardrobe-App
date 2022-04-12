@@ -1,28 +1,44 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:models="clr-namespace:MyDigitalWardrobe.Models"
              xmlns:viewmodels="clr-namespace:MyDigitalWardrobe.ViewModels"
+             xmlns:models="clr-namespace:MyDigitalWardrobe.Models"
              x:Class="MyDigitalWardrobe.Views.ViewItems">
     <ContentPage.BindingContext>
         <viewmodels:ViewItemsViewModel/>
     </ContentPage.BindingContext>
+    <ContentPage.Behaviors>
+        <xct:EventToCommandBehavior
+                EventName="Appearing"
+                Command="{Binding PageAppearingCommand}" />
+    </ContentPage.Behaviors>
     <ContentPage.Content>
         <StackLayout>
 
-            <CollectionView x:Name="itemsList">
-                <CollectionView.BindingContext>
-                    <models:Item/>
-                </CollectionView.BindingContext>
+            <!--<CollectionView ItemsSource="{Binding CollectionsWithItems}">
+                <CollectionView.ItemTemplate x:DataType="models:CollectionWithItems">
+                    <DataTemplate>
+                        <StackLayout BackgroundColor="Black">
+                            <Label Text="{Binding Name}" FontSize="Large" TextColor="Blue"/>
+                            <ScrollView BindableLayout.ItemsSource="{Binding Items}" Orientation="Horizontal">
+                                <StackLayout x:DataType="models:Item">
+                                    <Image Source="{Binding ItemImage}" Aspect="AspectFit" WidthRequest="100"/>
+                                    <Label Text="{Binding Name}" FontSize="Medium" HorizontalTextAlignment="Center"/>
+                                </StackLayout>
+                            </ScrollView>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>-->
+            
+            <CollectionView ItemsSource="{Binding ItemList}" 
+                            SelectedItem="{Binding SelectedItem}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout BackgroundColor="Black">
-                            <Image Source="{Binding ItemImage}"/>
-                            <Label Text="{Binding Name}" FontSize="Medium"/>
-                            <!--<Label Text="{Binding Price}" FontSize="Medium"/>
-                            <Label Text="{Binding LocationName}" FontSize="Medium"/>
-                            <Label Text="{Binding DatePurchased}" FontSize="Medium"/>
-                            <Label Text="{Binding WarrantyEnd}" FontSize="Medium"/>-->
+                            <Image Source="{Binding ItemImage}" Aspect="AspectFit" WidthRequest="100"/>
+                            <Label Text="{Binding Name}" FontSize="Medium" HorizontalTextAlignment="Center"/>
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

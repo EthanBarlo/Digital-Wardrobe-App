@@ -16,19 +16,14 @@
                     <Entry Text="{Binding Name, Mode=TwoWay}" 
                        FontSize="Medium"/>
 
-                    <!--<Picker x:Name="Category" Title="Category" HorizontalOptions="Center">
-                        <Picker.Items>
-                            <Picker.Item Text="Shirt" Value="Shirt"/>
-                            <Picker.Item Text="Pants" Value="Pants"/>
-                            <Picker.Item Text="Shoes" Value="Shoes"/>
-                            <Picker.Item Text="Hat" Value="Hat"/>
-                            <Picker.Item Text="Glasses" Value="Glasses"/>
-                            <Picker.Item Text="Socks" Value="Socks"/>
-                            <Picker.Item Text="Underwear" Value="Underwear"/>
-                            <Picker.Item Text="Other" Value="Other"/>
-                        </Picker.Items>
-                    </Picker>-->
-                    
+                    <StackLayout Orientation="Horizontal">
+                        <Picker Title="Collection Select" 
+                                SelectedItem="{Binding Collection}" 
+                                ItemsSource="{Binding CollectionItems}" 
+                                ItemDisplayBinding="{Binding Name}"/>
+                        <Button Text="New Collection" Command="{Binding CreateCollectionCommand}"/>
+                    </StackLayout>
+
                     <Label Text="Price" FontSize="Medium"/>
                     <Entry Text="{Binding Price, Mode=TwoWay}" 
                        Keyboard="Numeric" 
@@ -36,8 +31,10 @@
 
                     <Label Text="Item Image" FontSize="Medium"/>
                     <Image Source="{Binding ItemImage}"/>
-                    <Button Text="Select Image" Command="{Binding SelectItemImage}"/>
-                    <Button Text="Take Image" Command="{Binding TakeItemImage}"/>
+                    <StackLayout Orientation="Horizontal">
+                        <Button Text="Select Image" Command="{Binding SelectItemImage}"/>
+                        <Button Text="Take Image" Command="{Binding TakeItemImage}"/>
+                    </StackLayout>
 
                     <Label Text="Location Purchased" FontSize="Medium"/>
                     <Entry Text="{Binding PurchasedName, Mode=TwoWay}" 
@@ -52,9 +49,12 @@
                     <DatePicker Date="{Binding WarrantyEnd, Mode=TwoWay}" 
                             FontSize="Medium"/>
 
+                    <Label Text="Reciept Image" FontSize="Medium"/>
                     <Image Source="{Binding RecieptImage}"/>
-                    <Button Text="Select Image" Command="{Binding SelectRecieptImage}"/>
-                    <Button Text="Take Image" Command="{Binding TakeRecieptImage}"/>
+                    <StackLayout Orientation="Horizontal">
+                        <Button Text="Select Image" Command="{Binding SelectRecieptImage}"/>
+                        <Button Text="Take Image" Command="{Binding TakeRecieptImage}"/>
+                    </StackLayout>
 
                     <Button Text="Add Item" Command="{Binding AddItem}"/>
 
