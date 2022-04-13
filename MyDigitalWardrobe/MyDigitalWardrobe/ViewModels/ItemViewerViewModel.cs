@@ -21,7 +21,7 @@ namespace MyDigitalWardrobe.ViewModels
         public DateTime DatePurchased { get; set; }
         public DateTime WarrantyEnd { get; set; }
         public string RecieptImage { get; set; }
-
+        
         public ItemViewerViewModel(Item item)
         {
             _item = item;
@@ -37,7 +37,7 @@ namespace MyDigitalWardrobe.ViewModels
         
         private async void GetCollectionName()
         {
-            this.CollectionName = await CollectionService.GetCollectionNameFromItemAsync(_item);            
+            this.CollectionName = (await CollectionService.GetCollectionFromItemAsync(_item)).Name;            
         }
     }
 }

@@ -5,26 +5,24 @@
              xmlns:viewmodels="clr-namespace:MyDigitalWardrobe.ViewModels"
              x:DataType="viewmodels:AddItemViewModel"
              x:Class="MyDigitalWardrobe.Views.AddItem">
-    <ContentPage.BindingContext>
-        <viewmodels:AddItemViewModel/>
-    </ContentPage.BindingContext>
     <ContentPage.Content>
         <ContentView>
             <ScrollView>
                 <StackLayout Spacing="3" Padding="15" BackgroundColor="Black">
 
+                    
                     <Label Text="Name" FontSize="Medium"/>
                     <Entry Text="{Binding Name, Mode=TwoWay}" 
                        FontSize="Medium"/>
 
-                    <StackLayout Orientation="Horizontal">
-                        <Picker Title="Collection Select"
+                    <Picker Title="Collection Select"
                                 SelectedItem="{Binding Collection}" 
                                 ItemsSource="{Binding CollectionItems}" 
                                 ItemDisplayBinding="{Binding Name}">
-                        </Picker>
+                    </Picker>
+                    <StackLayout Orientation="Horizontal">
                         <Button Text="New Collection" Command="{Binding CreateCollectionCommand}"/>
-                        <Button Text="New Collection" Command="{Binding RefreshCollectionCommand}"/>
+                        <Button Text="Refresh" Command="{Binding RefreshCollectionCommand}"/>
                     </StackLayout>
 
                     <Label Text="Price" FontSize="Medium"/>

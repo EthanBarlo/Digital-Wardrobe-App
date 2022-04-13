@@ -75,7 +75,7 @@
                     <DataTemplate x:DataType="models:Item">
                         <ViewCell>
                             <ViewCell.ContextActions>
-                                <MenuItem Text="Add to Outfit" Command="{Binding Source={x:Reference ItemViewPage}, Path=BindingContext.AddToOutfitCommand}" CommandParameter="{Binding .}" />
+                                <MenuItem Text="Edit" Command="{Binding Source={x:Reference ItemViewPage}, Path=BindingContext.EditCommand}" CommandParameter="{Binding .}" />
                                 <MenuItem Text="Delete" Command="{Binding Source={x:Reference ItemViewPage}, Path=BindingContext.RemoveCommand}" CommandParameter="{Binding .}" />
                             </ViewCell.ContextActions>
                             <Grid Padding="10" WidthRequest="150">

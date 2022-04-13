@@ -24,8 +24,8 @@ namespace MyDigitalWardrobe.ViewModels
         public ICommand AddItem { get; set; }
         public ICommand CreateCollectionCommand { get; set; }
         public ICommand RefreshCollectionCommand { get; set; }
-        
 
+        private Item _item;
         public string Name { get; set; }
         public decimal Price { get; set; }
         public Collection Collection { get; set; }
@@ -62,8 +62,9 @@ namespace MyDigitalWardrobe.ViewModels
             set => SetProperty(ref collectionItems, value);
         }
 
-        public AddItemViewModel()
+        public AddItemViewModel(Item item = null)
         {
+            if (item != null) MapItemData(item);
             SelectItemImage = new Command(async () => { 
                 itemImageStream = await SelectPhoto();
                 ItemImage = SavePhoto("temp", "item", itemImageStream);
@@ -86,6 +87,21 @@ namespace MyDigitalWardrobe.ViewModels
             RefreshCollections();
         }
 
+        private async void MapItemData(Item item)
+        {
+            _item = item;
+            Name = item.Name;
+            Price = item.Price;
+            Collection = await CollectionService.GetCollectionFromItemAsync(item);
+            PurchasedName = item.PurchasedName;
+            DatePurchased = item.DatePurchased;
+            WarrantyEnd = item.WarrantyEnd;
+            PurchasedLongitude = item.PurchasedLongitude;
+            PurcahsedLatitude = item.PurchasedLatitude;
+            ItemImage = item.ItemImage;
+            RecieptImage = item.RecieptImage;
+        }
+
         private async Task CreateCollection()
         {
             await Xamarin.Forms.Shell.Current.Navigation.PushModalAsync(new AddCollection());
@@ -103,12 +119,16 @@ namespace MyDigitalWardrobe.ViewModels
             {
                 Title = "Select a Photo"
             });
+            if (selectedImage == null)
+                return null;
             return await selectedImage.OpenReadAsync();
         }
         
         private async Task<Stream> TakePhoto()
         {
             var selectedImage = await MediaPicker.CapturePhotoAsync();
+            if (selectedImage == null)
+                return null;
             return await selectedImage.OpenReadAsync();
         }
         private string SavePhoto(string folder, string name, Stream imageStream)
@@ -133,8 +153,8 @@ namespace MyDigitalWardrobe.ViewModels
                 WarrantyEnd = this.WarrantyEnd,
                 PurchasedLongitude = this.PurchasedLongitude,
                 PurchasedLatitude = this.PurcahsedLatitude,
-                ItemImage = HandleImage(ItemImage, "item"),
-                RecieptImage = HandleImage(RecieptImage, "reciept"),
+                ItemImage = _item.ItemImage.Equals(ItemImage) ? ItemImage : HandleImage(ItemImage, "item"),
+                RecieptImage = _item.RecieptImage.Equals(RecieptImage) ? RecieptImage : HandleImage(RecieptImage, "reciept"),
             };
             
             var rowsChanged = await ItemService.SaveItemAsync(item);

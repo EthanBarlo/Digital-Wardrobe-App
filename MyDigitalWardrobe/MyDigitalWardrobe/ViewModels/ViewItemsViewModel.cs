@@ -16,7 +16,7 @@ namespace MyDigitalWardrobe.ViewModels
     {
         public ICommand RefreshCommand { get; set; }
         public ICommand RemoveCommand { get; set; }
-        public ICommand AddToOutfitCommand { get; set; }
+        public ICommand EditCommand { get; set; }
 
         private Item lastSelectedItem;
         private Item selectedItem;
@@ -68,7 +68,7 @@ namespace MyDigitalWardrobe.ViewModels
             //PageAppearingCommand = new Command(PageAppearing);
             RefreshCommand = new Command(RefreshList);
             RemoveCommand = new AsyncCommand<Item>(RemoveItem);
-            AddToOutfitCommand = new AsyncCommand<Item>(AddToOutfit);
+            EditCommand = new AsyncCommand<Item>(EditItem);
             RefreshList();
         }
 
@@ -106,9 +106,9 @@ namespace MyDigitalWardrobe.ViewModels
         }
 
         
-        private async Task AddToOutfit(Item item) 
+        private async Task EditItem(Item item) 
         {
-            // TODO: Add to outfit
+            await Xamarin.Forms.Shell.Current.Navigation.PushModalAsync(new AddItem(item));
         }
         private async Task RemoveItem(Item item)
         {

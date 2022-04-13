@@ -7,7 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDigitalWardrobe.Android",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDigitalWardrobe.iOS", "MyDigitalWardrobe\MyDigitalWardrobe.iOS\MyDigitalWardrobe.iOS.csproj", "{E6857717-A205-43ED-BB9B-2A1A3D565325}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyDigitalWardrobe", "MyDigitalWardrobe\MyDigitalWardrobe\MyDigitalWardrobe.csproj", "{1AB61B2F-D1DA-4AF2-A0AF-2EDCB7E1C798}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyDigitalWardrobe", "MyDigitalWardrobe\MyDigitalWardrobe\MyDigitalWardrobe.csproj", "{1AB61B2F-D1DA-4AF2-A0AF-2EDCB7E1C798}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unit_Testing", "Unit_Testing\Unit_Testing.csproj", "{0EA029DA-6C61-4D6A-A52F-EE6E9A04A5EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +75,18 @@ Global
 		{1AB61B2F-D1DA-4AF2-A0AF-2EDCB7E1C798}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{1AB61B2F-D1DA-4AF2-A0AF-2EDCB7E1C798}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{1AB61B2F-D1DA-4AF2-A0AF-2EDCB7E1C798}.Release|iPhoneSimulator.Deploy.0 = Release|Any CPU
+		{0EA029DA-6C61-4D6A-A52F-EE6E9A04A5EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EA029DA-6C61-4D6A-A52F-EE6E9A04A5EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EA029DA-6C61-4D6A-A52F-EE6E9A04A5EB}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{0EA029DA-6C61-4D6A-A52F-EE6E9A04A5EB}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{0EA029DA-6C61-4D6A-A52F-EE6E9A04A5EB}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{0EA029DA-6C61-4D6A-A52F-EE6E9A04A5EB}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{0EA029DA-6C61-4D6A-A52F-EE6E9A04A5EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EA029DA-6C61-4D6A-A52F-EE6E9A04A5EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EA029DA-6C61-4D6A-A52F-EE6E9A04A5EB}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{0EA029DA-6C61-4D6A-A52F-EE6E9A04A5EB}.Release|iPhone.Build.0 = Release|Any CPU
+		{0EA029DA-6C61-4D6A-A52F-EE6E9A04A5EB}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{0EA029DA-6C61-4D6A-A52F-EE6E9A04A5EB}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

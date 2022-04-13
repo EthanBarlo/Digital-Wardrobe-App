@@ -1,5 +1,7 @@
 ﻿using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using MyDigitalWardrobe.Models;
+using MyDigitalWardrobe.ViewModels;
 
 namespace MyDigitalWardrobe.Views
 {
@@ -9,6 +11,11 @@ namespace MyDigitalWardrobe.Views
         public AddItem()
         {
             InitializeComponent();
+        }
+        public AddItem(Item item = null)
+        {
+            InitializeComponent();
+            BindingContext = item == null ? new AddItemViewModel() : new AddItemViewModel(item);
         }
     }
 }
