@@ -6,6 +6,7 @@ using System.Windows.Input;
 using MvvmHelpers.Commands;
 using MyDigitalWardrobe.Models;
 using MyDigitalWardrobe.Services;
+using MyDigitalWardrobe.Views;
 using System.Linq;
 using MvvmHelpers;
 
@@ -27,11 +28,16 @@ namespace MyDigitalWardrobe.ViewModels
                 if(value != null)
                 {
                     lastSelectedItem = value;
-                    value = null;
+                    OpenItemDetails(lastSelectedItem);
                 }
-                selectedItem = value;
+                selectedItem = null;
                 OnPropertyChanged();
             }
+        }
+
+        private async void OpenItemDetails(Item item)
+        {
+            await Xamarin.Forms.Shell.Current.Navigation.PushModalAsync(new ItemViewer(item));
         }
         private string NameOfCollection { get; set; }
         private bool isBusy;

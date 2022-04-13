@@ -34,6 +34,20 @@ namespace MyDigitalWardrobe.Services
             return await _connection.Table<Collection>().ToListAsync();
         }
 
+
+        /// <summary>
+        /// Returns the name of the collection the provided item is part of.
+        /// </summary>
+        /// <param name="item">Item we are searching for</param>
+        /// <returns>Name of collection</returns>
+        public static async Task<string> GetCollectionNameFromItemAsync(Item item)
+        {
+            await Init();
+            var collection = await _connection.Table<Collection>().Where(c => c.ID == item.Collection).FirstOrDefaultAsync();
+            return collection.Name;
+        }
+        
+
         /// <summary>
         /// Gets a list of all collections, as well as all items within those collections.
         /// </summary>

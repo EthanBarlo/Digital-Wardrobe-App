@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyDigitalWardrobe.Views.ItemViewer">
+    <ContentPage.Content>
+        <ContentView>
+            <ScrollView>
+                <StackLayout Spacing="3" Padding="15" BackgroundColor="Black">
+
+                    <Label Text="Name - " FontSize="Large"/>
+                    <Label Text="{Binding Name}" FontSize="Medium"/>
+                    <Label Text="Collection - " FontSize="Large"/>
+                    <Label Text="{Binding CollectionName}" FontSize="Medium"/>
+                    <Label Text="Price - " FontSize="Large"/>
+                    <Label Text="{Binding Price}" FontSize="Medium"/>
+
+                    <Label Text="Item Image - " FontSize="Medium"/>
+                    <Image Source="{Binding ItemImage}"/>
+
+                    <Label Text="Purchased From - " FontSize="Large"/>
+                    <Label Text="{Binding PurchasedName}" FontSize="Medium"/>
+
+                    <Label Text="Date Purchased - " FontSize="Large"/>
+                    <Label Text="{Binding DatePurchased}" FontSize="Medium"/>
+
+                    <Label Text="Warranty End Date - " FontSize="Large"/>
+                    <Label Text="{Binding WarrantyEnd}" FontSize="Medium"/>
+
+                    <Label Text="Reciept Image" FontSize="Medium"/>
+                    <Image Source="{Binding RecieptImage}"/>
+
+                </StackLayout>
+            </ScrollView>
+        </ContentView>
+    </ContentPage.Content>
+</ContentPage>
