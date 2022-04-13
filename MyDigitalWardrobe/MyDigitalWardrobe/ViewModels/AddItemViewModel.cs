@@ -10,6 +10,8 @@ using MyDigitalWardrobe.Services;
 using System.IO;
 using MyDigitalWardrobe.Views;
 using Plugin.Media;
+using MvvmHelpers.Commands;
+using Command = MvvmHelpers.Commands.Command;
 
 namespace MyDigitalWardrobe.ViewModels
 {
@@ -21,6 +23,8 @@ namespace MyDigitalWardrobe.ViewModels
         public ICommand TakeRecieptImage { get; set; }
         public ICommand AddItem { get; set; }
         public ICommand CreateCollectionCommand { get; set; }
+        public ICommand RefreshCollectionCommand { get; set; }
+        
 
         public string Name { get; set; }
         public decimal Price { get; set; }
@@ -77,44 +81,24 @@ namespace MyDigitalWardrobe.ViewModels
                 RecieptImage = SavePhoto("temp", "reciept", recieptImageStream);
             });
             AddItem = new Command(AddItemCommand);
-            CreateCollectionCommand = new Command(CreateCollection);
-            Init();
+            CreateCollectionCommand = new AsyncCommand(CreateCollection);
+            RefreshCollectionCommand = new Command(RefreshCollections);
+            RefreshCollections();
         }
 
-        private async void CreateCollection()
+        private async Task CreateCollection()
         {
             await Xamarin.Forms.Shell.Current.Navigation.PushModalAsync(new AddCollection());
-            CollectionItems = await CollectionService.GetCollectionsAsync();
+            RefreshCollections();
         }
-
-        private async void Init()
+        private async void RefreshCollections()
         {
             CollectionItems = await CollectionService.GetCollectionsAsync();
         }
+
 
         private async Task<Stream> SelectPhoto()
         {
-            //await CrossMedia.Current.Initialize();
-            
-            //if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
-            //{
-            //    //DisplayAlert("No Camera", ":( No camera available.", "OK");
-            //    return null;
-            //}
-
-            //var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
-            //{
-            //    AllowCropping = true,
-            //    DefaultCamera = Plugin.Media.Abstractions.CameraDevice.Rear,
-            //    PhotoSize = Plugin.Media.Abstractions.PhotoSize.Small
-            //});
-            
-            //if (file == null)
-            //    return null;
-
-
-            //return file.GetStream();
-
             var selectedImage = await MediaPicker.PickPhotoAsync(new MediaPickerOptions
             {
                 Title = "Select a Photo"

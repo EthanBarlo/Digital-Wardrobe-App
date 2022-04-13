@@ -4,15 +4,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:MyDigitalWardrobe.ViewModels"
              xmlns:models="clr-namespace:MyDigitalWardrobe.Models"
-             x:Class="MyDigitalWardrobe.Views.ViewItems">
+             x:Class="MyDigitalWardrobe.Views.ViewItems"
+             x:Name="ItemViewPage">
     <ContentPage.BindingContext>
         <viewmodels:ViewItemsViewModel/>
     </ContentPage.BindingContext>
-    <ContentPage.Behaviors>
-        <xct:EventToCommandBehavior
-                EventName="Appearing"
-                Command="{Binding PageAppearingCommand}" />
-    </ContentPage.Behaviors>
     <ContentPage.Content>
         <StackLayout>
 
@@ -31,19 +27,43 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>-->
-            
-            <CollectionView ItemsSource="{Binding ItemList}" 
-                            SelectedItem="{Binding SelectedItem}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <StackLayout BackgroundColor="Black">
-                            <Image Source="{Binding ItemImage}" Aspect="AspectFit" WidthRequest="100"/>
-                            <Label Text="{Binding Name}" FontSize="Medium" HorizontalTextAlignment="Center"/>
-                        </StackLayout>
+
+            <ListView 
+                BackgroundColor="Black"
+                ItemsSource="{Binding GroupedItems}"
+                IsGroupingEnabled="True"
+                GroupDisplayBinding="{Binding Key}"
+                HasUnevenRows="True" 
+                SeparatorVisibility="None"
+                IsPullToRefreshEnabled="True"
+                SelectedItem="{Binding SelectedItem}"
+                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                RefreshCommand="{Binding RefreshCommand}"
+                CachingStrategy="RecycleElement"
+                > 
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Item">
+                        <ViewCell>
+                            <ViewCell.ContextActions>
+                                <MenuItem Text="Add to Outfit" Command="{Binding Source={x:Reference ItemViewPage}, Path=BindingContext.AddToOutfitCommand}" CommandParameter="{Binding .}" />
+                                <MenuItem Text="Delete" Command="{Binding Source={x:Reference ItemViewPage}, Path=BindingContext.RemoveCommand}" CommandParameter="{Binding .}" />
+                            </ViewCell.ContextActions>
+                            <Grid Padding="10" WidthRequest="150">
+                                <Frame CornerRadius="20" HasShadow="True">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Image Source="{Binding ItemImage}" Aspect="AspectFit" WidthRequest="150"/>
+                                        <StackLayout>
+                                            <Label Text="{Binding Name}" HorizontalOptions="Center" FontSize="Medium" TextColor="Black"/>
+                                            <Label Text="{Binding Price}" HorizontalOptions="Center" FontSize="Small" TextColor="Black"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Frame>
+                            </Grid>
+                        </ViewCell>
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-            
+                </ListView.ItemTemplate>
+            </ListView>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
