@@ -35,6 +35,11 @@ namespace MyDigitalWardrobe.Services
             return await _connection.Table<Item>().ToListAsync();
         }
 
+        /// <summary>
+        ///  TODO
+        /// </summary>
+        /// <param name="collectionId"></param>
+        /// <returns></returns>
         public static async Task<List<Item>> GetItemsFromCollection(int collectionId)
         {
             await Init();
@@ -86,6 +91,16 @@ namespace MyDigitalWardrobe.Services
             if (item.Count == 0)
                 return 1;
             return item[0].ID + 1;
+        }
+
+        /// <summary>
+        /// ONLY TO BE USED WHEN UNIT TESTING, SETS THE DATABASE SOURCE
+        /// </summary>
+        /// <param name="connection"></param>
+        public static async Task UNIT_TESTING_SetDatabaseSource(SQLiteAsyncConnection connection)
+        {
+            _connection = connection;
+            await _connection.CreateTableAsync<Item>();
         }
     }
 }

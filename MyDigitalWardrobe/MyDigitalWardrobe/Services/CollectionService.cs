@@ -36,15 +36,15 @@ namespace MyDigitalWardrobe.Services
 
 
         /// <summary>
-        /// Returns the name of the collection the provided item is part of.
+        /// Returns the collection object that the provided item is a part of.
         /// </summary>
         /// <param name="item">Item we are searching for</param>
-        /// <returns>Name of collection</returns>
-        public static async Task<string> GetCollectionNameFromItemAsync(Item item)
+        /// <returns>Collection Object</returns>
+        public static async Task<Collection> GetCollectionFromItemAsync(Item item)
         {
             await Init();
             var collection = await _connection.Table<Collection>().Where(c => c.ID == item.Collection).FirstOrDefaultAsync();
-            return collection.Name;
+            return collection;
         }
         
 
@@ -101,6 +101,16 @@ namespace MyDigitalWardrobe.Services
         {
             await Init();
             return await _connection.DeleteAsync<Collection>(id);
+        }
+
+        /// <summary>
+        /// ONLY TO BE USED WHEN UNIT TESTING, SETS THE DATABASE SOURCE
+        /// </summary>
+        /// <param name="connection"></param>
+        public static async Task UNIT_TESTING_SetDatabaseSource(SQLiteAsyncConnection connection)
+        {
+            _connection = connection;
+            await _connection.CreateTableAsync<Collection>();
         }
     }
 }
