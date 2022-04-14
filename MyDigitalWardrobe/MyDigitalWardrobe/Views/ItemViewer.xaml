@@ -19,6 +19,8 @@
 
                     <Label Text="Purchased From - " FontSize="Large"/>
                     <Label Text="{Binding PurchasedName}" FontSize="Medium"/>
+                    <Label Text="{Binding ShowLocationError, Mode=TwoWay}" FontSize="Small" TextColor="Red"/>
+                    <Button Text="Show In Map" Command="{Binding ShowPurchasedLocationCommand}"/>
 
                     <Label Text="Date Purchased - " FontSize="Large"/>
                     <Label Text="{Binding DatePurchased}" FontSize="Medium"/>

@@ -16,9 +16,9 @@
                        FontSize="Medium"/>
 
                     <Picker Title="Collection Select"
-                                SelectedItem="{Binding Collection}" 
+                                SelectedItem="{Binding Collection, Mode=TwoWay}" 
                                 ItemsSource="{Binding CollectionItems}" 
-                                ItemDisplayBinding="{Binding Name}">
+                                ItemDisplayBinding="{Binding Name, Mode=TwoWay}">
                     </Picker>
                     <StackLayout Orientation="Horizontal">
                         <Button Text="New Collection" Command="{Binding CreateCollectionCommand}"/>
@@ -51,12 +51,13 @@
                             FontSize="Medium"/>
 
                     <Label Text="Reciept Image" FontSize="Medium"/>
-                    <Image Source="{Binding RecieptImage}"/>
+                    <Image Source="{Binding RecieptImage, Mode=TwoWay}"/>
                     <StackLayout Orientation="Horizontal">
                         <Button Text="Select Image" Command="{Binding SelectRecieptImage}"/>
                         <Button Text="Take Image" Command="{Binding TakeRecieptImage}"/>
                     </StackLayout>
 
+                    <Label Text="{Binding ErrorMessage, Mode=TwoWay}"/>
                     <Button Text="Add Item" Command="{Binding AddItem}"/>
 
                 </StackLayout>

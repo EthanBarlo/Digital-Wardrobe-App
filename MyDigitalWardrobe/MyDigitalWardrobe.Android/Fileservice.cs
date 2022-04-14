@@ -51,12 +51,11 @@ namespace MyDigitalWardrobe.Droid
                 Directory.CreateDirectory(destination);
                 destination = System.IO.Path.Combine(destination, imageName);
                 // Image Compression using Android.Graphics
-                using (var bitmap = BitmapFactory.DecodeStream(File.OpenRead(source)))
+                using (FileStream fs1 = File.OpenRead(source))
                 {
-                    using (FileStream fs = new FileStream(destination, FileMode.OpenOrCreate))
-                    {
-                        bitmap.Compress(Bitmap.CompressFormat.Jpeg, 30, fs);
-                    }
+                    using var bitmap = BitmapFactory.DecodeStream(fs1);
+                    using FileStream fs2 = new FileStream(destination, FileMode.OpenOrCreate);
+                    bitmap.Compress(Bitmap.CompressFormat.Jpeg, 30, fs2);
                 }
                 return true;
             }

@@ -11,11 +11,12 @@ namespace MyDigitalWardrobe.Views
         public AddItem()
         {
             InitializeComponent();
+            BindingContext = new AddItemViewModel();
         }
-        public AddItem(Item item = null)
+        public AddItem(Item item)
         {
             InitializeComponent();
-            BindingContext = item == null ? new AddItemViewModel() : new AddItemViewModel(item);
+            BindingContext = new AddItemViewModel(item);
         }
     }
 }

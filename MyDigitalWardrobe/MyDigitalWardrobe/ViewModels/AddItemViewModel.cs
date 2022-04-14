@@ -9,7 +9,6 @@ using MyDigitalWardrobe.Interfaces;
 using MyDigitalWardrobe.Services;
 using System.IO;
 using MyDigitalWardrobe.Views;
-using Plugin.Media;
 using MvvmHelpers.Commands;
 using Command = MvvmHelpers.Commands.Command;
 
@@ -17,6 +16,7 @@ namespace MyDigitalWardrobe.ViewModels
 {
     public class AddItemViewModel : ViewModelBase
     {
+        private bool isEditingItem = false;
         public ICommand SelectItemImage { get; set; }
         public ICommand TakeItemImage { get; set; }
         public ICommand SelectRecieptImage { get; set; }
@@ -26,15 +26,67 @@ namespace MyDigitalWardrobe.ViewModels
         public ICommand RefreshCollectionCommand { get; set; }
 
         private Item _item;
-        public string Name { get; set; }
-        public decimal Price { get; set; }
-        public Collection Collection { get; set; }
-        public string PurchasedName { get; set; }
-        public DateTime DatePurchased { get; set; }
-        public DateTime WarrantyEnd { get; set; }
-        public decimal PurchasedLongitude { get; set; }
-        public decimal PurcahsedLatitude { get; set; }
-        
+        private string name;
+        public string Name
+        {
+            get => name;
+            set {
+                name = value;
+                OnPropertyChanged();
+            }
+        }
+        private decimal price;
+        public decimal Price
+        {
+            get => price;
+            set
+            {
+                price = value;
+                OnPropertyChanged();
+            }
+        }
+        private Collection collection;
+        public Collection Collection
+        {
+            get => collection;
+            set
+            {
+                collection = value;
+                OnPropertyChanged();
+            }
+        }
+        private string purchasedName;
+        public string PurchasedName
+        {
+            get => purchasedName;
+            set
+            {
+                purchasedName = value;
+                OnPropertyChanged();
+            }
+        }
+        private DateTime datePurchased;
+        public DateTime DatePurchased
+        {
+            get => datePurchased;
+            set
+            {
+                datePurchased = value;
+                OnPropertyChanged();
+            }
+        }
+        private DateTime warrantyEnd;
+        public DateTime WarrantyEnd
+        {
+            get => warrantyEnd;
+            set
+            {
+                warrantyEnd = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         private string itemImage;
         public string ItemImage {
             get => itemImage;
@@ -52,6 +104,12 @@ namespace MyDigitalWardrobe.ViewModels
                 OnPropertyChanged();
             }
         }
+        private string errorMessage;
+        public string ErrorMessage
+        {
+            get => errorMessage;
+            set => SetProperty(ref errorMessage, value);
+        }
         private Stream itemImageStream { get; set; }
         private Stream recieptImageStream { get; set; }
 
@@ -59,34 +117,44 @@ namespace MyDigitalWardrobe.ViewModels
         public List<Collection> CollectionItems
         {
             get => collectionItems;
-            set => SetProperty(ref collectionItems, value);
+            set{
+                collectionItems = value;
+                OnPropertyChanged();
+            }
         }
 
         public AddItemViewModel(Item item = null)
         {
-            if (item != null) MapItemData(item);
-            SelectItemImage = new Command(async () => { 
+            MapItemData(item == null ? new Item() : item);
+            isEditingItem = item != null;
+            Init();
+        }
+
+        private void Init()
+        {
+            SelectItemImage = new Command(async () => {
                 itemImageStream = await SelectPhoto();
                 ItemImage = SavePhoto("temp", "item", itemImageStream);
             });
-            TakeItemImage = new Command(async () => { 
+            TakeItemImage = new Command(async () => {
                 itemImageStream = await TakePhoto();
                 ItemImage = SavePhoto("temp", "item", itemImageStream);
             });
-            SelectRecieptImage = new Command(async () => { 
+            SelectRecieptImage = new Command(async () => {
                 recieptImageStream = await SelectPhoto();
                 RecieptImage = SavePhoto("temp", "reciept", recieptImageStream);
             });
-            TakeRecieptImage = new Command(async () => { 
+            TakeRecieptImage = new Command(async () => {
                 recieptImageStream = await TakePhoto();
                 RecieptImage = SavePhoto("temp", "reciept", recieptImageStream);
             });
+
             AddItem = new Command(AddItemCommand);
             CreateCollectionCommand = new AsyncCommand(CreateCollection);
             RefreshCollectionCommand = new Command(RefreshCollections);
             RefreshCollections();
         }
-
+        
         private async void MapItemData(Item item)
         {
             _item = item;
@@ -96,8 +164,6 @@ namespace MyDigitalWardrobe.ViewModels
             PurchasedName = item.PurchasedName;
             DatePurchased = item.DatePurchased;
             WarrantyEnd = item.WarrantyEnd;
-            PurchasedLongitude = item.PurchasedLongitude;
-            PurcahsedLatitude = item.PurchasedLatitude;
             ItemImage = item.ItemImage;
             RecieptImage = item.RecieptImage;
         }
@@ -105,7 +171,6 @@ namespace MyDigitalWardrobe.ViewModels
         private async Task CreateCollection()
         {
             await Xamarin.Forms.Shell.Current.Navigation.PushModalAsync(new AddCollection());
-            RefreshCollections();
         }
         private async void RefreshCollections()
         {
@@ -151,18 +216,30 @@ namespace MyDigitalWardrobe.ViewModels
                 PurchasedName = this.PurchasedName,
                 DatePurchased = this.DatePurchased,
                 WarrantyEnd = this.WarrantyEnd,
-                PurchasedLongitude = this.PurchasedLongitude,
-                PurchasedLatitude = this.PurcahsedLatitude,
                 ItemImage = _item.ItemImage.Equals(ItemImage) ? ItemImage : HandleImage(ItemImage, "item"),
                 RecieptImage = _item.RecieptImage.Equals(RecieptImage) ? RecieptImage : HandleImage(RecieptImage, "reciept"),
             };
-            
-            var rowsChanged = await ItemService.SaveItemAsync(item);
-            if(rowsChanged == 0)
+
+            int rowsChanged;
+            if(isEditingItem)
             {
-                // TODO - Error for if it didnt upload
+                item.ID = _item.ID;
+                rowsChanged = await ItemService.UpdateItemAsync(item);
+                await Xamarin.Forms.Shell.Current.Navigation.PopModalAsync();
                 return;
             }
+            else
+            {
+                rowsChanged = await ItemService.SaveItemAsync(item);
+            }
+                
+            if(rowsChanged == 0)
+            {
+                ErrorMessage = "Item could not be saved";
+                return;
+            }
+            else
+                MapItemData(new Item());
 
             string HandleImage(string imagePath, string type)
             {
