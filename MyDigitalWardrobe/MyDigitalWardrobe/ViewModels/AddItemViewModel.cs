@@ -269,8 +269,14 @@ namespace MyDigitalWardrobe.ViewModels
                 ErrorMessage = "Item could not be saved";
                 return;
             }
-            else
-                MapItemData(new Item());
+
+            if(item.WarrantyEnd > DateTime.Now)
+                NotificationService.ScheduleWarantyNotification(item.Name, item.WarrantyEnd, item.ID);
+
+
+            MapItemData(new Item());
+
+            
 
             string HandleImage(string imagePath, string type)
             {

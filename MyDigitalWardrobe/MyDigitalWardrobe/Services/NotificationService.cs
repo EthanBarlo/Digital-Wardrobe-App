@@ -11,19 +11,12 @@ namespace MyDigitalWardrobe.Services
     {
         public static void Init()
         {
-            NotificationCenter.Current.NotificationReceived += OnNotificationReceived;
             NotificationCenter.Current.NotificationTapped += Current_NotificationTapped;
         }
         
         private static void Current_NotificationTapped(NotificationEventArgs e)
         {
             Xamarin.Forms.Shell.Current.GoToAsync($"//{nameof(ViewItems)}");
-            throw new NotImplementedException();
-        }
-
-        private static void OnNotificationReceived(NotificationEventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         public static void SendNotification(string message)
@@ -36,11 +29,11 @@ namespace MyDigitalWardrobe.Services
             NotificationCenter.Current.Show(notification);
         }
 
-        public static void ScheduleWarantyNotification(string message, DateTime date, int id){
+        public static void ScheduleWarantyNotification(string itemName, DateTime date, int id){
             var notification = new NotificationRequest
             {
-                Title = "Waranty Close to expiring!",
-                Description = message,
+                Title = itemName,
+                Description = "Waranty Close to expiring!",
                 ReturningData = id.ToString(),
                 Schedule = new NotificationRequestSchedule { NotifyTime = date }
             };
