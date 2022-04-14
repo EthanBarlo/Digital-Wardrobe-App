@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:viewmodels="clr-namespace:MyDigitalWardrobe.ViewModels"
              x:DataType="viewmodels:AddCollectionViewModel"
              x:Class="MyDigitalWardrobe.Views.AddCollection">
@@ -12,9 +13,13 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Name" FontSize="Medium"/>
+            <Label Text="Name -" FontSize="Small"/>
             <Entry Text="{Binding Name, Mode=TwoWay}" 
-                       FontSize="Medium"/>
+                       FontSize="Medium" TextColor="Black" 
+                                   xct:ShadowEffect.Opacity="20" 
+                                   xct:ShadowEffect.Radius="2" 
+                                   xct:ShadowEffect.Color="Black" 
+                                   PlaceholderColor="Black"/>
             <Button Text="Create Collection" Command="{Binding CreateCommand}"/>
             <Button Text="Close" Command="{Binding CloseCommand}"/>
         </StackLayout>
