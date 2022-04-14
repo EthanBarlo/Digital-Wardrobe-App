@@ -78,17 +78,27 @@
                                 <MenuItem Text="Edit" Command="{Binding Source={x:Reference ItemViewPage}, Path=BindingContext.EditCommand}" CommandParameter="{Binding .}" />
                                 <MenuItem Text="Delete" Command="{Binding Source={x:Reference ItemViewPage}, Path=BindingContext.RemoveCommand}" CommandParameter="{Binding .}" />
                             </ViewCell.ContextActions>
-                            <Grid Padding="10" WidthRequest="150">
-                                <Frame CornerRadius="20" HasShadow="True">
-                                    <StackLayout Orientation="Horizontal">
-                                        <Image Source="{Binding ItemImage}" Aspect="AspectFit" WidthRequest="150"/>
-                                        <StackLayout>
-                                            <Label Text="{Binding Name}" HorizontalOptions="Center" FontSize="Medium" TextColor="Black"/>
-                                            <Label Text="{Binding Price}" HorizontalOptions="Center" FontSize="Small" TextColor="Black"/>
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItem Text="Delete" BackgroundColor="Red" Command="{Binding Source={x:Reference ItemViewPage}, Path=BindingContext.RemoveCommand}" CommandParameter="{Binding .}"/>
+                                </SwipeView.RightItems>
+                                <SwipeView.LeftItems>
+                                    <SwipeItems Mode="Execute">
+                                        <SwipeItem Text="Edit" BackgroundColor="Blue" Command="{Binding Source={x:Reference ItemViewPage}, Path=BindingContext.EditCommand}" CommandParameter="{Binding .}" />
+                                    </SwipeItems>
+                                </SwipeView.LeftItems>
+                                <Grid Padding="10" WidthRequest="150">
+                                    <Frame CornerRadius="20" HasShadow="True">
+                                        <StackLayout Orientation="Horizontal">
+                                            <Image Source="{Binding ItemImage}" Aspect="AspectFit" WidthRequest="150"/>
+                                            <StackLayout>
+                                                <Label Text="{Binding Name}" HorizontalOptions="Center" FontSize="Medium" TextColor="Black"/>
+                                                <Label Text="{Binding Price}" HorizontalOptions="Center" FontSize="Small" TextColor="Black"/>
+                                            </StackLayout>
                                         </StackLayout>
-                                    </StackLayout>
-                                </Frame>
-                            </Grid>
+                                    </Frame>
+                                </Grid>
+                            </SwipeView>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
