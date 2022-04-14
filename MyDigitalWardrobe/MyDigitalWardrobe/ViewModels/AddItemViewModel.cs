@@ -11,6 +11,7 @@ using System.IO;
 using MyDigitalWardrobe.Views;
 using MvvmHelpers.Commands;
 using Command = MvvmHelpers.Commands.Command;
+using System.Linq;
 
 namespace MyDigitalWardrobe.ViewModels
 {
@@ -24,6 +25,7 @@ namespace MyDigitalWardrobe.ViewModels
         public ICommand AddItem { get; set; }
         public ICommand CreateCollectionCommand { get; set; }
         public ICommand RefreshCollectionCommand { get; set; }
+        public ICommand GetCurrentLocationCommand { get; set; }
 
         private Item _item;
         private string name;
@@ -122,6 +124,12 @@ namespace MyDigitalWardrobe.ViewModels
                 OnPropertyChanged();
             }
         }
+        private string locationErrorMessage;
+        public string LocationErrorMessage
+        {
+            get => locationErrorMessage;
+            set => SetProperty(ref locationErrorMessage, value);
+        }
 
         public AddItemViewModel(Item item = null)
         {
@@ -152,9 +160,32 @@ namespace MyDigitalWardrobe.ViewModels
             AddItem = new Command(AddItemCommand);
             CreateCollectionCommand = new AsyncCommand(CreateCollection);
             RefreshCollectionCommand = new Command(RefreshCollections);
+            GetCurrentLocationCommand = new Command(GetCurrentLocation);
             RefreshCollections();
         }
         
+        private async void GetCurrentLocation()
+        {
+            var location = await Geolocation.GetLocationAsync(new GeolocationRequest 
+            { 
+                DesiredAccuracy = GeolocationAccuracy.Medium, 
+                Timeout = TimeSpan.FromSeconds(15) 
+            });
+            if (location == null)
+            {
+                LocationErrorMessage = "Unable to get your location.";
+                return; 
+            }
+
+            var result = await Geocoding.GetPlacemarksAsync(location.Latitude, location.Longitude);
+            if (result == null)
+            {
+                LocationErrorMessage = "Unable to get your location.";
+                return;
+            }
+            var l = result.FirstOrDefault();
+            PurchasedName = $"{l.FeatureName} {l.Thoroughfare} {l.Locality} {l.SubAdminArea} {l.PostalCode}";
+        }
         private async void MapItemData(Item item)
         {
             _item = item;

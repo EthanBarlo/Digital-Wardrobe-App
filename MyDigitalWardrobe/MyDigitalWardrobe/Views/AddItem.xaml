@@ -40,6 +40,8 @@
                     <Label Text="Location Purchased" FontSize="Medium"/>
                     <Entry Text="{Binding PurchasedName, Mode=TwoWay}" 
                        FontSize="Medium"/>
+                    <Label Text="{Binding LocationErrorMessage, Mode=TwoWay}" FontSize="Medium" TextColor="Red"/>
+                    <Button Text="Get Current Location" Command="{Binding GetCurrentLocationCommand}"/>
 
                     <Label Text="Date Purchased" FontSize="Medium"/>
                     <DatePicker x:Name="datePurchased" 
