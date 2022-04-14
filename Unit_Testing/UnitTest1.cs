@@ -10,13 +10,11 @@ namespace Unit_Testing
     [TestClass]
     public class UnitTest1
     {
-        [TestMethod]
-        public async Task GetDatabaseConnection_ShouldReturnAnOpenDatabase()
+        // Xamarin Forms will not allow you to use the SQLite connection in a unit test.
+        // Because of this we create a new connection, in which we can test the CRUD operations.
+        public async Task EstablishDatabaseTestingConnection()
         {
             var result = new SQLiteAsyncConnection("TestDatabase.db3");
-
-            Assert.IsNotNull(result);
-
             await ItemService.UNIT_TESTING_SetDatabaseSource(result);
             await CollectionService.UNIT_TESTING_SetDatabaseSource(result);
         }
@@ -25,7 +23,7 @@ namespace Unit_Testing
         public async Task GetAllItems_ShouldReturnListOfItems()
         {
             // Setup the database
-            await GetDatabaseConnection_ShouldReturnAnOpenDatabase();
+            await EstablishDatabaseTestingConnection();
             
             // Act
             var result = await ItemService.GetItemsAsync();
@@ -38,7 +36,7 @@ namespace Unit_Testing
         public async Task AddItemThenRetrieveAll_ShouldReturnItemWeAdded()
         {
             // Setup the database
-            await GetDatabaseConnection_ShouldReturnAnOpenDatabase();
+            await EstablishDatabaseTestingConnection();
             
             // Arange
             Item newItem = new Item()
@@ -61,12 +59,27 @@ namespace Unit_Testing
             // Assert
             Assert.IsTrue(ItemsAfterAdding.Count > ItemsBeforeAdding.Count);
         }
+        
+        [TestMethod]
+        public async Task DeleteLastItem_ShouldDeleteTheLastItem()
+        {
+            // Setup the database
+            await EstablishDatabaseTestingConnection();
+
+            // Act
+            var ItemsBeforeAdding = await ItemService.GetItemsAsync();
+            await ItemService.DeleteItemAsync(ItemsBeforeAdding[ItemsBeforeAdding.Count - 1].ID);
+            var ItemsAfterAdding = await ItemService.GetItemsAsync();
+
+            // Assert
+            Assert.IsTrue(ItemsAfterAdding.Count < ItemsBeforeAdding.Count);
+        }
 
         [TestMethod]
         public async Task GetAllCollections_ShouldReturnListOfCollections()
         {
             // Setup the database
-            await GetDatabaseConnection_ShouldReturnAnOpenDatabase();
+            await EstablishDatabaseTestingConnection();
 
             // Act
             var result = await CollectionService.GetCollectionsAsync();
@@ -79,7 +92,7 @@ namespace Unit_Testing
         public async Task AddCollectionThenRetrieveAll_ShouldHaveMoreCollectionsThanBeforeAdding()
         {
             // Setup the database
-            await GetDatabaseConnection_ShouldReturnAnOpenDatabase();
+            await EstablishDatabaseTestingConnection();
 
             // Arange
             Collection newCollection = new Collection()
@@ -88,12 +101,27 @@ namespace Unit_Testing
             };
 
             // Act
-            var ItemsBeforeAdding = await CollectionService.GetCollectionsAsync();
+            var CollectionsBeforeAdding = await CollectionService.GetCollectionsAsync();
             await CollectionService.SaveCollectionAsync(newCollection);
-            var ItemsAfterAdding = await CollectionService.GetCollectionsAsync();
+            var CollectionsAfterAdding = await CollectionService.GetCollectionsAsync();
 
             // Assert
-            Assert.IsTrue(ItemsAfterAdding.Count > ItemsBeforeAdding.Count);
-        }        
+            Assert.IsTrue(CollectionsAfterAdding.Count > CollectionsBeforeAdding.Count);
+        }
+
+        [TestMethod]
+        public async Task DeleteLastCollection_ShouldRemoveTheLastCollection()
+        {
+            // Setup the database
+            await EstablishDatabaseTestingConnection();
+
+            // Act
+            var CollectionsBeforeAdding = await CollectionService.GetCollectionsAsync();
+            await CollectionService.DeleteCollectionAsync(CollectionsBeforeAdding[CollectionsBeforeAdding.Count-1].ID);
+            var CollectionsAfterAdding = await CollectionService.GetCollectionsAsync();
+
+            // Assert
+            Assert.IsTrue(CollectionsAfterAdding.Count < CollectionsBeforeAdding.Count);
+        }
     }
 }
