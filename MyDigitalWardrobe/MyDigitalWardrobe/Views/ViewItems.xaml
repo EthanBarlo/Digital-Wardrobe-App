@@ -10,6 +10,7 @@
         <viewmodels:ViewItemsViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Resources>
+        <StyleSheet Source="../Styles/BaseStyles.css"/>
         <StyleSheet Source="../Styles/ViewItemsStyles.css"/>
     </ContentPage.Resources>
     <ContentPage.Content>
@@ -18,7 +19,6 @@
             <ListView 
                 ItemsSource="{Binding GroupedItems}"
                 IsGroupingEnabled="True"
-                GroupDisplayBinding="{Binding Key}"
                 HasUnevenRows="True" 
                 SeparatorVisibility="None"
                 IsPullToRefreshEnabled="True"
@@ -27,6 +27,13 @@
                 RefreshCommand="{Binding RefreshCommand}"
                 CachingStrategy="RecycleElement"
                 >
+                <ListView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Label Text="{Binding Key}" StyleId="GroupHeader" TextColor="White"/>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.GroupHeaderTemplate>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="models:Item">
                         <ViewCell>
@@ -40,11 +47,14 @@
                                 </SwipeView.RightItems>
                                 <SwipeView.LeftItems>
                                     <SwipeItems Mode="Execute">
-                                        <SwipeItem Text="Edit" BackgroundColor="Aqua" Command="{Binding Source={x:Reference ItemViewPage}, Path=BindingContext.EditCommand}" CommandParameter="{Binding .}" />
+                                        <SwipeItem Text="Edit" BackgroundColor="#A1A6F3" Command="{Binding Source={x:Reference ItemViewPage}, Path=BindingContext.EditCommand}" CommandParameter="{Binding .}" />
                                     </SwipeItems>
                                 </SwipeView.LeftItems>
-                                <Grid Padding="10">
-                                    <Frame CornerRadius="20" HasShadow="True">
+                                <Grid Padding="10" Background="white">
+                                    <Frame CornerRadius="20"
+                                           xct:ShadowEffect.Opacity="20" 
+                                            xct:ShadowEffect.Radius="5" 
+                                            xct:ShadowEffect.Color="Black">
                                         <StackLayout Orientation="Horizontal">
                                             <Image Source="{Binding ItemImage}" Aspect="AspectFit" WidthRequest="150"/>
                                             <StackLayout>

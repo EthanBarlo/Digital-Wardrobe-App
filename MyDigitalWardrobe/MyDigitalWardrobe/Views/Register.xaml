@@ -20,21 +20,21 @@
             </Frame>
 
             <StackLayout>
-                <Label FontSize="Large" TextColor="Black" Text="Enter Email Address"/>
+                <Label FontSize="Small" TextColor="Black" Text="Enter Email Address -"/>
                 <Entry Placeholder="Enter Email Address" Text="{Binding Email, Mode=TwoWay}"
                        FontSize="Medium" TextColor="Black" 
                                    xct:ShadowEffect.Opacity="20" 
                                    xct:ShadowEffect.Radius="2" 
                                    xct:ShadowEffect.Color="Black" 
                                    PlaceholderColor="Black"/>
-                <Label FontSize="Large" TextColor="Black" Text="Enter Password"/>
+                <Label FontSize="Small" TextColor="Black" Text="Enter Password -"/>
                 <Entry Placeholder="Enter Password" IsPassword="True" Text="{Binding Password, Mode=TwoWay}"
                        FontSize="Medium" TextColor="Black" 
                                    xct:ShadowEffect.Opacity="20" 
                                    xct:ShadowEffect.Radius="2" 
                                    xct:ShadowEffect.Color="Black" 
                                    PlaceholderColor="Black"/>
-                <Label FontSize="Large" TextColor="Black" Text="Confirm Password"/>
+                <Label FontSize="Small" TextColor="Black" Text="Confirm Password -"/>
                 <Entry Placeholder="Confirm Password" IsPassword="True" Text="{Binding ConfirmPassword, Mode=TwoWay}"
                        FontSize="Medium" TextColor="Black" 
                                    xct:ShadowEffect.Opacity="20" 

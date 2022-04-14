@@ -1,11 +1,7 @@
-﻿^ContentPage{
-    background-color: whitesmoke;
-    color: black;
-}
-
-.Header{
+﻿#GroupHeader {
     font-size: large;
     text-align: center;
     color: white;
-    background: blue;
+    font-weight: 600;
+    background: #2196F3;
 }

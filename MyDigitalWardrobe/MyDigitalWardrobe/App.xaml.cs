@@ -36,7 +36,7 @@ namespace MyDigitalWardrobe
             var result = await FireBaseService.RefreshAuthTokenAsync();
             if (result.Status == FireBaseService.Status.Success)
             {
-                await Shell.Current.GoToAsync($"//{nameof(AddItem)}");
+                await Shell.Current.GoToAsync($"//{nameof(ViewItems)}");
                 return;
             }
         }

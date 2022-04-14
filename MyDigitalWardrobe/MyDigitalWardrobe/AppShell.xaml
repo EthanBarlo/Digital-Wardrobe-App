@@ -31,7 +31,7 @@
 
     <TabBar>
         <Tab Title="Profile">
-            <ShellContent Title="View" ContentTemplate="{DataTemplate views:UserProfile}" Route="UserProfile"/>
+            <ShellContent Title="User Profile" ContentTemplate="{DataTemplate views:UserProfile}" Route="UserProfile"/>
         </Tab>
         <Tab Title="View">
             <ShellContent Title="View" ContentTemplate="{DataTemplate views:ViewItems}" Route="ViewItems"/>
