@@ -9,57 +9,13 @@
     <ContentPage.BindingContext>
         <viewmodels:ViewItemsViewModel/>
     </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <StyleSheet Source="../Styles/ViewItemsStyles.css"/>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout>
 
-            <!--<CollectionView ItemsSource="{Binding CollectionsWithItems}">
-                <CollectionView.ItemTemplate x:DataType="models:CollectionWithItems">
-                    <DataTemplate>
-                        <StackLayout BackgroundColor="Black">
-                            <Label Text="{Binding Name}" FontSize="Large" TextColor="Blue"/>
-                            <ScrollView BindableLayout.ItemsSource="{Binding Items}" Orientation="Horizontal">
-                                <StackLayout x:DataType="models:Item">
-                                    <Image Source="{Binding ItemImage}" Aspect="AspectFit" WidthRequest="100"/>
-                                    <Label Text="{Binding Name}" FontSize="Medium" HorizontalTextAlignment="Center"/>
-                                </StackLayout>
-                            </ScrollView>
-                        </StackLayout>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>-->
-
-            <!--<CollectionView 
-                BackgroundColor="Black"
-                ItemsSource="{Binding GroupedItems}"
-                IsGrouped="True"
-                SelectedItem="{Binding SelectedItem}"
-                >
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Item">
-                        <ViewCell>
-                            <ViewCell.ContextActions>
-                                <MenuItem Text="Add to Outfit" Command="{Binding Source={x:Reference ItemViewPage}, Path=BindingContext.AddToOutfitCommand}" CommandParameter="{Binding .}" />
-                                <MenuItem Text="Delete" Command="{Binding Source={x:Reference ItemViewPage}, Path=BindingContext.RemoveCommand}" CommandParameter="{Binding .}" />
-                            </ViewCell.ContextActions>
-                            <Grid Padding="10" WidthRequest="150">
-                                <Frame CornerRadius="20" HasShadow="True">
-                                    <StackLayout Orientation="Horizontal">
-                                        <Image Source="{Binding ItemImage}" Aspect="AspectFit" WidthRequest="150"/>
-                                        <StackLayout>
-                                            <Label Text="{Binding Name}" HorizontalOptions="Center" FontSize="Medium" TextColor="Black"/>
-                                            <Label Text="{Binding Price}" HorizontalOptions="Center" FontSize="Small" TextColor="Black"/>
-                                        </StackLayout>
-                                    </StackLayout>
-                                </Frame>
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>-->
-
-
             <ListView 
-                BackgroundColor="Black"
                 ItemsSource="{Binding GroupedItems}"
                 IsGroupingEnabled="True"
                 GroupDisplayBinding="{Binding Key}"
@@ -84,16 +40,16 @@
                                 </SwipeView.RightItems>
                                 <SwipeView.LeftItems>
                                     <SwipeItems Mode="Execute">
-                                        <SwipeItem Text="Edit" BackgroundColor="Blue" Command="{Binding Source={x:Reference ItemViewPage}, Path=BindingContext.EditCommand}" CommandParameter="{Binding .}" />
+                                        <SwipeItem Text="Edit" BackgroundColor="Aqua" Command="{Binding Source={x:Reference ItemViewPage}, Path=BindingContext.EditCommand}" CommandParameter="{Binding .}" />
                                     </SwipeItems>
                                 </SwipeView.LeftItems>
-                                <Grid Padding="10" WidthRequest="150">
+                                <Grid Padding="10">
                                     <Frame CornerRadius="20" HasShadow="True">
                                         <StackLayout Orientation="Horizontal">
                                             <Image Source="{Binding ItemImage}" Aspect="AspectFit" WidthRequest="150"/>
                                             <StackLayout>
-                                                <Label Text="{Binding Name}" HorizontalOptions="Center" FontSize="Medium" TextColor="Black"/>
-                                                <Label Text="{Binding Price}" HorizontalOptions="Center" FontSize="Small" TextColor="Black"/>
+                                                <Label Text="{Binding Name}" HorizontalOptions="Center" FontSize="Large" TextColor="Black"/>
+                                                <Label Text="{Binding Price}" HorizontalOptions="Center" FontSize="Medium" TextColor="Black"/>
                                             </StackLayout>
                                         </StackLayout>
                                     </Frame>

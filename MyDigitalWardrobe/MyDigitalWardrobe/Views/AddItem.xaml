@@ -5,21 +5,34 @@
              xmlns:viewmodels="clr-namespace:MyDigitalWardrobe.ViewModels"
              x:DataType="viewmodels:AddItemViewModel"
              x:Class="MyDigitalWardrobe.Views.AddItem">
+    <ContentPage.Resources>
+        <StyleSheet Source="../Styles/BaseStyles.css"/>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <ContentView>
             <ScrollView>
-                <StackLayout Spacing="3" Padding="15" BackgroundColor="Black">
+                <StackLayout Spacing="3" Padding="15">
 
-                    
+
                     <Label Text="Name" FontSize="Medium"/>
                     <Entry Text="{Binding Name, Mode=TwoWay}" 
-                       FontSize="Medium"/>
+                                   FontSize="Medium" TextColor="Black" 
+                                   xct:ShadowEffect.Opacity="20" 
+                                   xct:ShadowEffect.Radius="2" 
+                                   xct:ShadowEffect.Color="Black" 
+                                   PlaceholderColor="Black"/>
 
-                    <Picker Title="Collection Select"
+                    <Picker Title="Collection Selector (Tap Me)"
                                 SelectedItem="{Binding Collection, Mode=TwoWay}" 
                                 ItemsSource="{Binding CollectionItems}" 
-                                ItemDisplayBinding="{Binding Name, Mode=TwoWay}">
+                                ItemDisplayBinding="{Binding Name, Mode=TwoWay}"
+                                FontSize="Medium" TextColor="Black" 
+                                   xct:ShadowEffect.Opacity="20" 
+                                   xct:ShadowEffect.Radius="2" 
+                                   xct:ShadowEffect.Color="Black" 
+                            TitleColor="Black">
                     </Picker>
+                    
                     <StackLayout Orientation="Horizontal">
                         <Button Text="New Collection" Command="{Binding CreateCollectionCommand}"/>
                         <Button Text="Refresh" Command="{Binding RefreshCollectionCommand}"/>
@@ -28,7 +41,11 @@
                     <Label Text="Price" FontSize="Medium"/>
                     <Entry Text="{Binding Price, Mode=TwoWay}" 
                        Keyboard="Numeric" 
-                       FontSize="Medium"/>
+                       FontSize="Medium" TextColor="Black" 
+                                   xct:ShadowEffect.Opacity="20" 
+                                   xct:ShadowEffect.Radius="2" 
+                                   xct:ShadowEffect.Color="Black" 
+                                   PlaceholderColor="Black"/>
 
                     <Label Text="Item Image" FontSize="Medium"/>
                     <Image Source="{Binding ItemImage}"/>
@@ -39,18 +56,28 @@
 
                     <Label Text="Location Purchased" FontSize="Medium"/>
                     <Entry Text="{Binding PurchasedName, Mode=TwoWay}" 
-                       FontSize="Medium"/>
+                      FontSize="Medium" TextColor="Black" 
+                                   xct:ShadowEffect.Opacity="20" 
+                                   xct:ShadowEffect.Radius="2" 
+                                   xct:ShadowEffect.Color="Black" 
+                                   PlaceholderColor="Black"/>
                     <Label Text="{Binding LocationErrorMessage, Mode=TwoWay}" FontSize="Medium" TextColor="Red"/>
                     <Button Text="Get Current Location" Command="{Binding GetCurrentLocationCommand}"/>
 
                     <Label Text="Date Purchased" FontSize="Medium"/>
                     <DatePicker x:Name="datePurchased" 
                             Date="{Binding DatePurchased, Mode=TwoWay}" 
-                            FontSize="Medium"/>
+                           FontSize="Medium" TextColor="Black" 
+                                   xct:ShadowEffect.Opacity="20" 
+                                   xct:ShadowEffect.Radius="2" 
+                                   xct:ShadowEffect.Color="Black" />
 
                     <Label Text="Warranty End Date" FontSize="Medium"/>
                     <DatePicker Date="{Binding WarrantyEnd, Mode=TwoWay}" 
-                            FontSize="Medium"/>
+                            FontSize="Medium" TextColor="Black" 
+                                   xct:ShadowEffect.Opacity="20" 
+                                   xct:ShadowEffect.Radius="2" 
+                                   xct:ShadowEffect.Color="Black" />
 
                     <Label Text="Reciept Image" FontSize="Medium"/>
                     <Image Source="{Binding RecieptImage, Mode=TwoWay}"/>

@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:viewmodels="clr-namespace:MyDigitalWardrobe.ViewModels"
              x:DataType="viewmodels:LoginViewModel"
              x:Class="MyDigitalWardrobe.Views.Login"
@@ -9,16 +10,31 @@
     <ContentPage.BindingContext>
         <viewmodels:LoginViewModel/>
     </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <StyleSheet Source="../Styles/BaseStyles.css"/>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout BackgroundColor="Black">
+        <StackLayout>
             
             <Frame BackgroundColor="Blue" Padding="24" CornerRadius="0">
                 <Label Text="Login" HorizontalTextAlignment="Center" TextColor="White"/>
             </Frame>
             
             <StackLayout>
-                <Entry Placeholder="Enter Email Address" Text="{Binding Email, Mode=TwoWay}"/>
-                <Entry Placeholder="Enter Password" IsPassword="True" Text="{Binding Password, Mode=TwoWay}"/>
+                <Label FontSize="Large" TextColor="Black" Text="Enter Email Address"/>
+                <Entry Placeholder="Enter Email Address" Text="{Binding Email, Mode=TwoWay}"
+                       FontSize="Medium" TextColor="Black" 
+                                   xct:ShadowEffect.Opacity="20" 
+                                   xct:ShadowEffect.Radius="2" 
+                                   xct:ShadowEffect.Color="Black" 
+                                   PlaceholderColor="Black"/>
+                <Label FontSize="Large" TextColor="Black" Text="Enter Password"/>
+                <Entry Placeholder="Enter Password" IsPassword="True" Text="{Binding Password, Mode=TwoWay}"
+                       FontSize="Medium" TextColor="Black" 
+                                   xct:ShadowEffect.Opacity="20" 
+                                   xct:ShadowEffect.Radius="2" 
+                                   xct:ShadowEffect.Color="Black" 
+                                   PlaceholderColor="Black"/>
                 <Label FontSize="Small" TextColor="Red" Text="{Binding ErrorMessage}"/>
                 <Button Text="Login" Command="{Binding AttemptLoginCommand}"/>
             </StackLayout>

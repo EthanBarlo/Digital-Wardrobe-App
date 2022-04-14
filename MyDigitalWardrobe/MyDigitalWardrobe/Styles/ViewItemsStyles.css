@@ -1,0 +1,11 @@
+﻿^ContentPage{
+    background-color: whitesmoke;
+    color: black;
+}
+
+.Header{
+    font-size: large;
+    text-align: center;
+    color: white;
+    background: blue;
+}

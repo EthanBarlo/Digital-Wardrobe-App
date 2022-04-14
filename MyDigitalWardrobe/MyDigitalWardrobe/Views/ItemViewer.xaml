@@ -2,33 +2,53 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MyDigitalWardrobe.Views.ItemViewer">
+    <ContentPage.Resources>
+        <StyleSheet Source="../Styles/BaseStyles.css"/>
+        <StyleSheet Source="../Styles/ItemViewerStyles.css"/>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <ContentView>
             <ScrollView>
-                <StackLayout Spacing="3" Padding="15" BackgroundColor="Black">
+                <StackLayout Spacing="3" Padding="15">
 
-                    <Label Text="Name - " FontSize="Large"/>
-                    <Label Text="{Binding Name}" FontSize="Medium"/>
-                    <Label Text="Collection - " FontSize="Large"/>
-                    <Label Text="{Binding CollectionName}" FontSize="Medium"/>
-                    <Label Text="Price - " FontSize="Large"/>
-                    <Label Text="{Binding Price}" FontSize="Medium"/>
+                    
+                    <Frame>
+                        <Label Text="{Binding Name}" StyleId="Name"/>
+                    </Frame>
 
-                    <Label Text="Item Image - " FontSize="Medium"/>
+                    <Label Text="Item Image" StyleClass="Header"/>
                     <Image Source="{Binding ItemImage}"/>
 
-                    <Label Text="Purchased From - " FontSize="Large"/>
-                    <Label Text="{Binding PurchasedName}" FontSize="Medium"/>
-                    <Label Text="{Binding ShowLocationError, Mode=TwoWay}" FontSize="Small" TextColor="Red"/>
+
+                    <Label Text="Collection" StyleClass="Header"/>
+                    <Frame>
+                        <Label Text="{Binding CollectionName}" StyleClass="Data"/>  
+                    </Frame>
+
+                    <Label Text="Price" StyleClass="Header"/>
+                    <Frame>
+                        <Label Text="{Binding Price}" StyleClass="Data"/>    
+                    </Frame>
+
+                    <Label Text="Purchased From" StyleClass="Header"/>
+                    <Frame>
+                        <Label Text="{Binding PurchasedName}" StyleClass="Data"/>
+                    </Frame>
+
+                    <Label Text="{Binding ShowLocationError, Mode=TwoWay}" StyleClass="Error" TextColor="Red"/>
                     <Button Text="Show In Map" Command="{Binding ShowPurchasedLocationCommand}"/>
 
-                    <Label Text="Date Purchased - " FontSize="Large"/>
-                    <Label Text="{Binding DatePurchased}" FontSize="Medium"/>
+                    <Label Text="Date Purchased" StyleClass="Header"/>
+                    <Frame>
+                        <Label Text="{Binding DatePurchased}" StyleClass="Data"/>
+                    </Frame>
 
-                    <Label Text="Warranty End Date - " FontSize="Large"/>
-                    <Label Text="{Binding WarrantyEnd}" FontSize="Medium"/>
+                    <Label Text="Warranty End Date" StyleClass="Header"/>
+                    <Frame>
+                        <Label Text="{Binding WarrantyEnd}" StyleClass="Data"/>
+                    </Frame>
 
-                    <Label Text="Reciept Image" FontSize="Medium"/>
+                    <Label Text="Reciept Image" StyleClass="Header"/>
                     <Image Source="{Binding RecieptImage}"/>
 
                 </StackLayout>

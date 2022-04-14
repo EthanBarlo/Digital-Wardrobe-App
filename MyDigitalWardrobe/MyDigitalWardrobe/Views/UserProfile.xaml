@@ -7,8 +7,11 @@
     <ContentPage.BindingContext>
         <viewmodels:UserProfileViewModel/>
     </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <StyleSheet Source="../Styles/BaseStyles.css"/>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout BackgroundColor="Black">
+        <StackLayout>
             <Label Text="{Binding Title}" FontSize="Medium"/>
             <Label Text="{Binding UserName}" />
             <Button Text="Logout" Command="{Binding LogoutAction}"/>

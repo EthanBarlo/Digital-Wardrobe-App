@@ -1,0 +1,22 @@
+﻿^ContentPage{
+    background-color: whitesmoke;
+    color: black;
+}
+
+#Name{
+    font-size: large;
+    text-align: center;
+}
+
+.Header{
+    text-align: center;
+    font-size: large;
+}
+
+.Data{
+    font-size: medium;
+}
+
+.Error {
+    font-size: medium;
+}

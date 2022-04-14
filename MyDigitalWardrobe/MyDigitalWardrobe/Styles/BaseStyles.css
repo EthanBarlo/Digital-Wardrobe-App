@@ -1,0 +1,16 @@
+﻿^ContentPage{
+    background-color: whitesmoke;
+    color: black;
+}
+*{
+    color: black;
+}
+
+entry{
+    border: 1px solid black;
+    color: black;
+}
+
+button{
+    color: white;
+}
